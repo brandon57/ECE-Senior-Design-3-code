@@ -4,17 +4,14 @@ import time
 device = serial.Serial("/dev/ttyS0", 115200, timeout=1)
 
 AT_Command = "AT+SEND=101,41,"
-
-# def setMode(input):
-#     mode = input
     
 def sendData(message):
-    data = AT_Command + message
-    device.write(data)
+    data = AT_Command + message + "\r\n"
+    device.write(data.encode("ASCII"))
     
 def receiveData():
     while True:
-        message = device.readline
+        message = device.readline().decode("ASCII").replace('\r\n', '')
         try:
             if len(message) != 0:
                 return message
@@ -26,6 +23,6 @@ if __name__ == '__main__':
     while True:
         if test == 0: #receiver
             print(receiveData())
-        else:
-            sendData(sendData("This is a test message"))
+        else: #Sender
+            sendData("This is a test message")
         time.sleep(3)
