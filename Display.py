@@ -35,10 +35,7 @@ def changeMode():
 #             print(receiveData())
 #     else:
 #         modeButton_text.set("Sender")
-#         while mode != 0:
-            
-
-        
+#         while mode != 0:  
 
 def get_GPS():
     global start, mode
