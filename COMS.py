@@ -13,6 +13,11 @@ def sendData(message):
     
 def receiveData():
     while True:
-        message = device.readline.decode("utf-8")
-        if len(message) != 0:
-            return
+        message = device.readline
+        try:
+            if len(message) != 0:
+                return message
+        except:
+            return "error"
+        
+        
