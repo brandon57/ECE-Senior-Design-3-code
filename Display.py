@@ -9,6 +9,11 @@ from COMS import *
 mode = 0
 start = 0
 
+dataBuffer = Semaphore(1)
+
+sending_data = []
+receiving_data = []
+
 #This sets wheather this sends data or recieves data
 def changeMode():
     #This would call the c functions
@@ -20,27 +25,58 @@ def changeMode():
         modeButton_text.set("Receiver")
     else:
         modeButton_text.set("Sender")
+        
+# def get_Data():
+#     mode = ~mode
+    
+#     if mode != 0:
+#         modeButton_text.set("Receiver")
+#         while mode == 0:
+#             print(receiveData())
+#     else:
+#         modeButton_text.set("Sender")
+#         while mode != 0:
+            
 
-# def GPS():
-#     # global start
-#     # start = ~start
-#     GPS_thread = Thread(target=get_GPS).start()
+        
 
 def get_GPS():
-    global start
+    global start, mode
     start = ~start
-    if start != 0:
+    print(start)
+    if start == 0:
         startButton_text.set("Start")
     else:
         startButton_text.set("Stop")
-    while start == 0:
-        coords = getCoords()
-        try:
-            print(coords)
-            latNum_text.set(str(coords[0]))
-            longNum_text.set(str(coords[1]))
-        except:
-            continue
+        if mode != 0: #Sender mode
+            while start != 0:
+                coords = getCoords()
+                try:
+                    print(coords)
+                    sendData(coords)
+                    latNum_text.set(str(coords[0]))
+                    longNum_text.set(str(coords[1]))
+                except:
+                    continue
+        else: #Receiver mode
+            while start != 0:
+                data = receiveData()
+                coords = getCoords()
+                print(data)
+                
+                
+    
+    # while start == 0:
+    #     coords = getCoords()
+    #     try:
+    #         if mode != 0:
+    #             dataBuffer.acquire()
+    #             sending_data
+    #         print(coords)
+    #         latNum_text.set(str(coords[0]))
+    #         longNum_text.set(str(coords[1]))
+    #     except:
+    #         continue
 
 # def startProg():
 #     #Starts the GPS and COMS

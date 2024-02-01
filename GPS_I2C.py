@@ -15,7 +15,7 @@ def getCoords():
     try:
         latMin = DegMinConverter(latDMS[0:2], latDMS[2:10], message[2])
         longMin = DegMinConverter(longDMS[0:3], longDMS[3:11], message[4])
-        print("Latitude:", latMin, ", Longitude:", longMin)
+        # print("Latitude:", latMin, ", Longitude:", longMin)
         results.append(latMin)
         results.append(longMin)
         return results

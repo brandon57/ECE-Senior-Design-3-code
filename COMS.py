@@ -1,14 +1,15 @@
 import serial
 
-
 device = serial.Serial("/dev/ttyS0", 115200, timeout=1)
-mode = 0
+
+AT_Command = "AT+SEND=101,41,"
 
 # def setMode(input):
 #     mode = input
     
 def sendData(message):
-    device.write(message)
+    data = AT_Command + message
+    device.write(data)
     
 def receiveData():
     while True:
