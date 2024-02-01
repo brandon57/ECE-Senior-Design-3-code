@@ -8,6 +8,7 @@ checkSumTable = ["A*60", "A*61", "A*62", "A*63" "A*64", "A*65", "A*66", "A*67", 
 
 # Takes the GPS data and converts it to latitude and longitude
 def getCoords():
+    # results = ""
     results = []
     message = grabGPSData()
     latDMS = message[1]
@@ -18,6 +19,7 @@ def getCoords():
         # print("Latitude:", latMin, ", Longitude:", longMin)
         results.append(latMin)
         results.append(longMin)
+        # results = str(latMin) + "," + str(longMin)
         return results
     except:
         print("error")

@@ -47,21 +47,26 @@ def get_GPS():
         startButton_text.set("Stop")
         if mode != 0: #Sender mode
             while start != 0:
-                coords = getCoords()
+                coords = getCoords() # grabs coordinates
                 try:
+                    lat = str(coords[0])
+                    longit = str(coords[1])
                     print(coords)
-                    sendData(coords)
-                    latNum_text.set(str(coords[0]))
-                    longNum_text.set(str(coords[1]))
+                    sendData(lat + "," + longit)
+                    latNum_text.set(lat)
+                    longNum_text.set(longit)
                 except:
                     continue
         else: #Receiver mode
             while start != 0:
-                data = receiveData()
+                data = receiveData().split(",")
+                print(data) 
                 coords = getCoords()
-                print(data)
-                
-                
+                try:
+                    latNum_text.set(data[2])
+                    longNum_text.set(data[3])
+                except:
+                    continue
     
     # while start == 0:
     #     coords = getCoords()
@@ -91,9 +96,8 @@ def get_GPS():
 
 #This is the GUI
 class GUI(tk.Tk):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs): #This part sets up the GUI
         tk.Tk.__init__(self, *args, **kwargs)
-        #This part sets up the GUI
         # global display
         # display = tk.Tk()
         self.title("ECE Senior Design 2")
