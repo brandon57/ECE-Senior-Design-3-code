@@ -11,11 +11,13 @@ def getCoords():
     # results = ""
     results = []
     message = grabGPSData()
-    latDMS = message[1]
-    longDMS = message[3]
     try:
-        latMin = DegMinConverter(latDMS[0:2], latDMS[2:10], message[2])
-        longMin = DegMinConverter(longDMS[0:3], longDMS[3:11], message[4])
+        latDMS = float(message[1])
+        longDMS = float(message[3])
+        latMin = DegMinConverter(int(latDMS/100), latDMS - (100*int(latDMS/100)), message[2])
+        longMin = DegMinConverter(int(longDMS/100), longDMS - (100*int(longDMS/100)), message[4])
+        # latMin = DegMinConverter(latDMS[0:2], latDMS[2:10], message[2])
+        # longMin = DegMinConverter(longDMS[0:3], longDMS[3:11], message[4])
         # print("Latitude:", latMin, ", Longitude:", longMin)
         results.append(latMin)
         results.append(longMin)
@@ -29,7 +31,7 @@ def getCoords():
 def grabGPSData():
     GPS_Message = []
     GPS = ""
-    checkSumGood = False
+    # checkSumGood = False
     while True:
         data = bus.read_byte(address)
         if chr(data) == '$':
@@ -43,22 +45,25 @@ def grabGPSData():
         if len(GPS_Message) != 0:
             temp2 = [x for x in GPS_Message]
             GPS = ''.join(temp2).strip().split(",")
-            name = GPS[0]
+            # name = GPS[0]
             # print(GPS)
-            if name == "$GNGLL" and GPS[6] == 'A':
-                checkSum = GPS[7]
-                for x in checkSumTable:
-                    if checkSum == x:
-                        # checkSumGood = True
-                        print(GPS)
-                        return GPS
+            if GPS[0] == "$GNGLL" and GPS[6] == 'A' and GPS[7] in checkSumTable:
+                # checkSum = GPS[7]
+                # if GPS[7] in checkSumTable:
+                print(GPS)
+                return GPS
+                # for x in checkSumTable:
+                #     if checkSum == x:
+                #         # checkSumGood = True
+                #         print(GPS)
+                #         return GPS
                 # print(GPS)
                 # return GPS
             GPS_Message = []
             # time.sleep(600/1000) #Used for testing
 
 def DegMinConverter(degrees, minutes, direction):
-    result = float(degrees) + (float(minutes)/60)
+    result = degrees + (minutes/60)
     
     if (direction == 'W') | (direction == 'S'):
         result = -result

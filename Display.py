@@ -8,8 +8,16 @@ from COMS import *
 #Global variables
 mode = 0
 start = 0
+user_coords = [0.0, 0.0]
 
-#This sets wheather this sends data or recieves data
+# This calculates the offset
+def offset(GPS_lat, GPS_long):
+    result = []
+    result[0] = user_coords[0] - GPS_lat
+    result[1] = user_coords[1] - GPS_long
+    return result
+
+# This sets wheather this sends data or recieves data
 def changeMode():
     #This would call the c functions
     global mode
@@ -22,7 +30,7 @@ def changeMode():
         modeButton_text.set("Sender")  
 
 def get_GPS():
-    global start, mode
+    global start, mode, user_coords
     start = ~start
     print(start)
     if start == 0:
@@ -33,23 +41,29 @@ def get_GPS():
             while start != 0:
                 coords = getCoords() # grabs coordinates
                 try:
-                    lat = str(coords[0])
-                    longit = str(coords[1])
+                    lat_diff = str(-(user_coords[0] - coords[0]))
+                    longit_diff = str(-(user_coords[1] - coords[1]))
                     print(coords)
-                    sendData(lat + "," + longit)
-                    latNum_text.set(lat)
-                    longNum_text.set(longit)
+                    sendData(lat_diff + "," + longit_diff)
+                    # sendData(lat + "," + longit)
+                    latNum_text.set(str(coords[0]))
+                    longNum_text.set(str(coords[1]))
                 except:
                     continue
         else: #Receiver mode
             while start != 0:
                 data = receiveData().split(",")
-                print(data) 
+                print(data)
+                # print(float(data[2]) + "," + float(data[3]))
                 coords = getCoords()
                 try:
-                    latNum_text.set(data[2])
-                    longNum_text.set(data[3])
+                    lat = str(round(coords[0] - float(data[2]), 4))
+                    longit = str(round(coords[1] - float(data[3]), 4))
+                    print(lat + "," + longit)
+                    latNum_text.set(lat)
+                    longNum_text.set(longit)
                 except:
+                    print("conversion error")
                     continue
 
 #This is the GUI
