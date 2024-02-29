@@ -4,6 +4,11 @@ import time
 device = serial.Serial("/dev/ttyS0", 115200, timeout=1)
 
 AT_Command = "AT+SEND=101,30,"
+AT_Parameters = "AT+PARAMETER="
+
+def parameters(message):
+    data = AT_Parameters + message + "\r\n"
+    device.write(data.encode("ASCII"))
     
 def sendData(message):
     data = AT_Command + message + "\r\n"
