@@ -1,10 +1,11 @@
 from ctypes import *
 import tkinter as tk
+from tkinter import ttk
 from threading import *
 import time, os, sys, multiprocessing
 # from GPS_I2C import *
 # from COMS import *
-import Controller
+import controller
 
 #Global variables
 # mode = 0
@@ -66,15 +67,33 @@ import Controller
 #                     print("conversion error")
 #                     continue
 
+# class Window(tk.Tk):
+#     def __init__(self, *args, **kwargs):
+#         tk.Tk.__init__(self, *args, **kwargs)
+#         control = controller.Controller()
+#         self.mainpage = MainPage(self, control)
+#         self.settings = Settings(self, control)
+
 #This is the GUI
-class GUI(tk.Tk):
-    def __init__(self, *args, **kwargs): #This part sets up the GUI
-        tk.Tk.__init__(self, *args, **kwargs)
+class MainPage(tk.Frame):
+    def __init__(self, parent, controller): #This part sets up the GUI
+        tk.Frame.__init__(self, parent)
         self.title("ECE Senior Design 2")
         self.geometry("500x400")
         # self.attributes('-zoomed', True)
         self.resizable(height=False, width=False)
-        controll = Controller.Control()
+        self.controller = controller
+        # control = controller.Controller()
+        
+        
+        #Tabs
+        # Tabs = ttk.Notebook(self)
+        # self = ttk.Frame(Tabs)
+        # tab2 = ttk.Frame(Tabs)
+        # Tabs.add(self, text="test")
+        # Tabs.add(tab2, text="Settings")
+        # Tabs.pack(expand=1, fill='both')
+        # ttk.Label(tab2, text="This is the settings").place(x=100, y=100)
         
         #Labels
         global latNum_text, longNum_text
@@ -87,14 +106,16 @@ class GUI(tk.Tk):
         longNum_text.set("0.0")
         
         #Buttons
-        global modeButton_text, startButton_text
-        modeButton_text, startButton_text = tk.StringVar(), tk.StringVar()
-        modeButton = tk.Button(self, textvariable=modeButton_text, command=Controller.changeMode).place(x=0, y=370)
+        global modeButton_text, startButton_text, settingsButton_text
+        modeButton_text, startButton_text, settingsButton_text = tk.StringVar(), tk.StringVar(), tk.StringVar()
+        modeButton = tk.Button(self, textvariable=modeButton_text, command=controller.changeMode).place(x=0, y=370)
         modeButton_text.set("Receiver")
         
         # tk.Button(self, textvariable=startButton_text, command= lambda: Thread(target=get_GPS, daemon=True).start()).place(x=220, y=160)
-        tk.Button(self, textvariable=startButton_text, command= controll.start).place(x=220, y=160)
+        tk.Button(self, textvariable=startButton_text, command= control.start).place(x=220, y=160)
         startButton_text.set("Start")
+        
+        setting = tk.Button(self, textvariable=settingsButton_text, command=self.settings.tkraise).place(x=300, y=200)
         
     def update_coords(lat, longit):
         #global display
@@ -109,6 +130,10 @@ class GUI(tk.Tk):
         #global display
         modeButton_text.set(text)
     
+class Settings(tk.Frame):
+    def __init__(self, parent, controller): #This part sets up the Settings page
+        tk.Frame.__init__(self, parent)
+        tk.Label(self, text="test").place(x=300, y=100)
 
 # #Main
 # if __name__ == "__main__":

@@ -78,23 +78,3 @@ def DegMinConverter(degrees, minutes, direction):
 #     while True:
 #         getCoords()
 #         # print(list)
-        
-        
-        
-#         # print(data)
-#         # if data[0] != 255:
-#         #     data = ord(str(data))
-#         #     print(data)
-#         # if x == "$GNRMC":
-#         #      if x  == "A":
-#         #          print("e")
-#                 #  latitude = data[3]
-#                 #  latDir = data[4]
-#                 #  longitude = data[5]
-#                 #  longDir = data[6]
-#                  #latitude = DegMinConverter(latitude[0:2], latitude[2:10], latDir)
-#                  #longitude = DegMinConverter(longitude[0:3], longitude[3:11], longDir)
-#                  #latitude = GPS_functions.DegMinConverter(int(latitude[0:2]), c_float(float(latitude[2:10])), longDir)
-#                  #longitude = GPS_functions.DegMinConverter(int(longitude[0:3]), c_float(float(longitude[3:11])), latDir)
-#                  #print(data)
-#                  #print(data[0] + ", Latitude: " + str(latitude) + ", Longitude: " + str(longitude) + ", taken at: " + data[1] + " UTC")

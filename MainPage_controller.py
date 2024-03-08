@@ -1,6 +1,7 @@
 from threading import *
 import Model
 import Display
+from main_controller import Main_controller
 from COMS import *
 from GPS_I2C import getCoords
 
@@ -16,13 +17,13 @@ def changeMode():
     # print("mode value:")
     # print(mode)
     if mode == 0:
-        Display.GUI.update_mode("Receiver")
+        Display.MainPage.update_mode("Receiver")
         #modeButton_text.set("Receiver")
     else:
-        Display.GUI.update_mode("Sender")
+        Display.MainPage.update_mode("Sender")
         #modeButton_text.set("Sender")
 
-class Control(object):
+class mainpage_Controller(Main_controller):
     start = False
     user_coords = [0.0, 0.0]
     
@@ -33,12 +34,13 @@ class Control(object):
         # user_coords = [0.0, 0.0]
         self.GPS = None
         self.stop_thread = Event()
+        Main_controller.show_page
     
     def start(self):
         if self.stop_thread:
             self.stop_thread.clear()
-        Control.start = not Control.start
-        if Control.start == True:
+        Controller.start = not Controller.start
+        if Controller.start == True:
             Model.update_start("Start")
             #startButton_text.set("Start")
             self.stop()
@@ -54,8 +56,8 @@ class Control(object):
         while not self.stop_thread.is_set():
             coords = getCoords() # grabs coordinates
             try:
-                lat_diff = str(-(Control.user_coords[0] - coords[0]))
-                longit_diff = str(-(Control.user_coords[1] - coords[1]))
+                lat_diff = str(-(Controller.user_coords[0] - coords[0]))
+                longit_diff = str(-(Controller.user_coords[1] - coords[1]))
                 print(coords)
                 # sendData(lat + "," + longit)
                 if not self.stop_thread.is_set():
