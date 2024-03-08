@@ -1,4 +1,5 @@
-import Display
+from Views.main import Controller
+from Controllers.main import Main_Controller
 from COMS import parameters
 
 display = Display
@@ -25,3 +26,6 @@ if __name__ == "__main__":
     parameters("7,8,4,12")
     display = Display.MainPage(parent=1)
     display.mainloop()
+    
+    GUI = Controller()
+    controller = Main_Controller(GUI)
