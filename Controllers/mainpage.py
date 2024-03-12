@@ -15,15 +15,15 @@ class MainPage_Controller():
     # start = False
     # user_coords = [0.0, 0.0]
     
-    def __init__(self, main, view: Controller, database):
+    def __init__(self, main, view: Controller, model):
         self.main = main
         self.view = view
-        self.database = database
+        self.model = model
         self.frame = self.view.frames["mainpage"]
         
-        self.start = False
-        self.mode = 0
-        self.user_coords = [0.0, 0.0]
+        # self.start = False
+        # self.mode = 0
+        # self.user_coords = [0.0, 0.0]
         
         self.GPS = None
         self.stop_thread = Event()
@@ -31,9 +31,10 @@ class MainPage_Controller():
     def start(self):
         if self.stop_thread:
             self.stop_thread.clear()
-        self.start = not self.start
+        self.model.change_start()
+        # self.start = not self.start
         
-        if self.start == True:
+        if self.model.get_start() == True:
             self.frame.update_start("Start")
             #startButton_text.set("Start")
             self.stop()
