@@ -1,6 +1,8 @@
-from main import Main_controller
+# from main import Main_Controller
 
 
-class Settings_controller(Main_controller):
-    def __init__(self):
-        test = 0
+class Settings_controller():
+    def __init__(self, main, view, database):
+        self.main = main
+        self.view = view
+        self.frame = self.view.frames["settings"]

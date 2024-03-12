@@ -1,4 +1,3 @@
-from ctypes import *
 import tkinter as tk
 from tkinter import ttk
 from threading import *
@@ -75,13 +74,12 @@ import time, os, sys, multiprocessing
 
 #This is the GUI
 class MainPage(tk.Frame):
-    def __init__(self, controller): #This part sets up the GUI
-        tk.Frame.__init__(self)
+    def __init__(self, *args, **kwargs): #This part sets up the GUI
+        tk.Frame.__init__(self, *args, **kwargs)
         # self.title("ECE Senior Design 2")
         # self.geometry("500x400")
         # # self.attributes('-zoomed', True)
         # self.resizable(height=False, width=False)
-        self.controller = controller
         # control = controller.Controller()
         
         
@@ -107,11 +105,11 @@ class MainPage(tk.Frame):
         #Buttons
         global modeButton_text, startButton_text, settingsButton_text
         modeButton_text, startButton_text, settingsButton_text = tk.StringVar(), tk.StringVar(), tk.StringVar()
-        modeButton = tk.Button(self, textvariable=modeButton_text, command=controller.changeMode).place(x=0, y=370)
+        modeButton = tk.Button(self, textvariable=modeButton_text).place(x=0, y=370)
         modeButton_text.set("Receiver")
         
         # tk.Button(self, textvariable=startButton_text, command= lambda: Thread(target=get_GPS, daemon=True).start()).place(x=220, y=160)
-        tk.Button(self, textvariable=startButton_text, command= control.start).place(x=220, y=160)
+        tk.Button(self, textvariable=startButton_text).place(x=220, y=160)
         startButton_text.set("Start")
         
         #setting = tk.Button(self, textvariable=settingsButton_text, command=self.settings.tkraise).place(x=300, y=200)
@@ -128,6 +126,9 @@ class MainPage(tk.Frame):
     def update_mode(text):
         #global display
         modeButton_text.set(text)
+    
+    def update_text(text):
+        test = 0
 
 # #Main
 # if __name__ == "__main__":
