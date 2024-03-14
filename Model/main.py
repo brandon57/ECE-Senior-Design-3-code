@@ -3,17 +3,19 @@ import configparser
 class Model:
     
     def __init__(self):
-        config = configparser.ConfigParser()
-        config['DEFAULT'] = {
+        self.config = configparser.ConfigParser()
+        self.config['DEFAULT'] = {
         'start': 'False',
         'mode': '0',
         'user_coords': '[0.0, 0.0]'
         }
         
         with open('config.ini', 'w') as configfile:
-            config.write(configfile)
+            self.config.write(configfile)
         
-    def change_start():
+        #print(self.config.getboolean('DEFAULT', 'start'))
+        
+    def change_start(self):
         data["start"] = not data["start"]
         
     def get_start():
