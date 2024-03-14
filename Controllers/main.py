@@ -1,17 +1,17 @@
 from .mainpage import MainPage_Controller
 from .settings import Settings_controller
-from Views.main import Controller
+from Views.main import View
 from Model.main import Model
 from COMS import parameters
 
 class Main_Controller:
     # This creates everything
-    def __init__(self, view: Controller, model: Model):
+    def __init__(self, view: View, model: Model):
         self.view = view
         self.model = model
         
         self.mainpage_controller = MainPage_Controller(self, view, model)
-        #self.settings_controller = Settings_controller(self, view)
+        #self.settings_controller = Settings_controller(self, view, model)
         
         parameters("7,8,4,12")
         

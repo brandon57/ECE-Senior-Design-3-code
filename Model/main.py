@@ -1,12 +1,4 @@
-from .database import data
 import configparser
-
-# config = configparser.ConfigParser()
-# config['DEFAULT'] = {
-#     'start': 'False',
-#     'mode': 0,
-#     'user_coords': '[0.0, 0.0]'
-# }
 
 class Model:
     

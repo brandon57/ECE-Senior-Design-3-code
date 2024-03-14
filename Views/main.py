@@ -4,7 +4,7 @@ from .display import MainPage
 from .settings import Settings
 from .window import Window
 
-class Controller:
+class View:
     def __init__(self):
         self.window = Window()
         self.frames = {}

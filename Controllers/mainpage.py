@@ -3,19 +3,13 @@ from threading import *
 # from .main import Main_Controller
 from COMS import *
 from GPS_I2C import getCoords
-from Views.main import Controller
-
-# mode = 0
+from Views.main import View #Testing
 
 #Made a control class that helps manage the logic of the code. Also made a 
 
-#global start, mode, user_coords
-
 class MainPage_Controller():
-    # start = False
-    # user_coords = [0.0, 0.0]
     
-    def __init__(self, main, view: Controller, model):
+    def __init__(self, main, view: View, model):
         self.main = main
         self.view = view
         self.model = model
