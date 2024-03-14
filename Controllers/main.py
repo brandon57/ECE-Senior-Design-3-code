@@ -2,7 +2,7 @@ from .mainpage import MainPage_Controller
 from .settings import Settings_controller
 from Views.main import View
 from Model.main import Model
-from COMS import parameters
+from IO.COMS import parameters
 
 class Main_Controller:
     # This creates everything

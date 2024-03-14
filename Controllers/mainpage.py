@@ -1,8 +1,8 @@
 from threading import *
 # from Views import display
 # from .main import Main_Controller
-from COMS import *
-from GPS_I2C import getCoords
+from IO.COMS import *
+from IO.GPS_I2C import getCoords
 from Views.main import View #Testing
 
 #Made a control class that helps manage the logic of the code. Also made a 
