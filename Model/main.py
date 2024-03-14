@@ -1,5 +1,5 @@
 from .database import data
-# import configparser
+import configparser
 
 # config = configparser.ConfigParser()
 # config['DEFAULT'] = {
@@ -10,11 +10,16 @@ from .database import data
 
 class Model:
     
-    # def __init__(self):
+    def __init__(self):
+        config = configparser.ConfigParser()
+        config['DEFAULT'] = {
+        'start': 'False',
+        'mode': '0',
+        'user_coords': '[0.0, 0.0]'
+        }
         
-        # self.start = False
-        # self.mode = 0
-        # self.user_coords = [0.0, 0.0]
+        with open('config.ini', 'w') as configfile:
+            config.write(configfile)
         
     def change_start():
         data["start"] = not data["start"]

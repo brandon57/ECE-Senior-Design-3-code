@@ -1,5 +1,6 @@
 from Views.main import Controller
 from Controllers.main import Main_Controller
+from Model.main import Model
 # from COMS import parameters
 
 # display = Display
@@ -28,4 +29,5 @@ if __name__ == "__main__":
     # display.mainloop()
     
     GUI = Controller()
-    controller = Main_Controller(GUI)
+    model = Model()
+    controller = Main_Controller(GUI, model)

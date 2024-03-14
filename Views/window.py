@@ -8,5 +8,5 @@ class Window(tk.Tk):
         self.geometry("500x400")
         # self.attributes('-zoomed', True)
         self.resizable(height=False, width=False)
-        self.grid_columnconfigure(0, weight=1)
-        self.grid_rowconfigure(0,)
+        # self.grid_columnconfigure(0, weight=1)
+        # self.grid_rowconfigure(0,)
