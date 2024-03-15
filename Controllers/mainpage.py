@@ -4,7 +4,6 @@ from IO.GPS_I2C import getCoords
 # from Views.main import View #Testing
 
 class MainPage_Controller():
-    
     def __init__(self, main, view, model):
         self.main = main
         self.view = view
