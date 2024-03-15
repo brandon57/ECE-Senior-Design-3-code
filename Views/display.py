@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, Button
 from threading import *
 import time, os, sys, multiprocessing
 # from GPS_I2C import *
@@ -93,42 +93,50 @@ class MainPage(tk.Frame):
         # ttk.Label(tab2, text="This is the settings").place(x=100, y=100)
         
         #Labels
-        global latNum_text, longNum_text
-        latNum_text, longNum_text = tk.StringVar(), tk.StringVar()
-        Lat = tk.Label(self, text="Latitude:").place(x=100, y=100)
-        latNum = tk.Label(self, textvariable=latNum_text).place(x=180, y=100)
-        long = tk.Label(self, text="Longitude:").place(x=300, y=100)
-        longNum = tk.Label(self, textvariable=longNum_text).place(x=380, y=100)
-        latNum_text.set("0.0")
-        longNum_text.set("0.0")
+        #self.latNum_text, self.longNum_text
+        self.latNum_text, self.longNum_text = tk.StringVar(), tk.StringVar()
+        self.Lat_label = tk.Label(self, text="Latitude:")
+        self.latNum = tk.Label(self, textvariable=self.latNum_text)
+        self.long_label = tk.Label(self, text="Longitude:")
+        self.longNum = tk.Label(self, textvariable=self.longNum_text)
+        self.Lat_label.place(x=100, y=100)
+        self.latNum.place(x=180, y=100)
+        self.long_label.place(x=300, y=100)
+        self.longNum.place(x=380, y=100)
+        self.latNum_text.set("0.0")
+        self.longNum_text.set("0.0")
         
         #Buttons
-        global modeButton_text, startButton_text, settingsButton_text
-        modeButton_text, startButton_text, settingsButton_text = tk.StringVar(), tk.StringVar(), tk.StringVar()
-        modeButton = tk.Button(self, textvariable=modeButton_text).place(x=0, y=370)
-        modeButton_text.set("Receiver")
+        #self.modeButton_text, self.startButton_text, self.settingsButton_text
+        self.modeButton_text, self.startButton_text, self.settingsButton_text = tk.StringVar(), tk.StringVar(), tk.StringVar()
+        self.modeButton = Button(self, textvariable=self.modeButton_text)
+        self.modeButton.place(x=0, y=370)
+        self.modeButton_text.set("Receiver")
         
         # tk.Button(self, textvariable=startButton_text, command= lambda: Thread(target=get_GPS, daemon=True).start()).place(x=220, y=160)
-        tk.Button(self, textvariable=startButton_text).place(x=220, y=160)
-        startButton_text.set("Start")
+        self.start_button = Button(self, textvariable=self.startButton_text)
+        self.start_button.place(x=220, y=160)
+        self.startButton_text.set("Start")
+        
+        # self.start_button.config(tk.Frame.config)
         
         #setting = tk.Button(self, textvariable=settingsButton_text, command=self.settings.tkraise).place(x=300, y=200)
         
-    def update_coords(lat, longit):
-        #global display
-        latNum_text.set(lat)
-        longNum_text.set(longit)
+    # def update_coords(self, lat, longit):
+    #     #global display
+    #     self.latNum_text.set(lat)
+    #     self.longNum_text.set(longit)
     
-    def update_start(text):
-        #global display
-        startButton_text.set(text)
+    # def update_start(self, text):
+    #     #global display
+    #     self.startButton_text.set(text)
         
-    def update_mode(text):
-        #global display
-        modeButton_text.set(text)
+    # def update_mode(self, text):
+    #     #global display
+    #     self.modeButton_text.set(text)
     
-    def update_text(text):
-        test = 0
+    # def update_text(text):
+    #     test = 0
 
 # #Main
 # if __name__ == "__main__":

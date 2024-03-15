@@ -14,7 +14,7 @@ class View:
     
     def add_frame(self, name: str, Frame):
         self.frames[name] = Frame(self.window)
-        #self.frames[name].place(1234)
+        self.frames[name].grid(row=0, column=0, sticky="nsew")
         
     def change_frame(self, name: str):
         self.frames[name].tkraise()
