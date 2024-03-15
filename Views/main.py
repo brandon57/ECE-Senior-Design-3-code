@@ -10,7 +10,7 @@ class View:
         self.frames = {}
         
         self.add_frame("mainpage", MainPage)
-        #self.add_frame("settings", Settings)
+        self.add_frame("settings", Settings)
     
     def add_frame(self, name: str, Frame):
         self.frames[name] = Frame(self.window)

@@ -12,13 +12,9 @@ class Model:
         
         self.write()
         
-        # print(self.config.get('DEFAULT', 'user_coords'))
-        # print(self.get_start())
-        
     def change_start(self):
         start = self.config.getboolean('DEFAULT', 'start')
         start = not start
-        print(start)
         self.config.set('DEFAULT', 'start', str(start))
         
     def get_start(self):
@@ -26,10 +22,8 @@ class Model:
     
     def change_mode(self):
         mode = self.config.getint('DEFAULT', 'mode')
-        print(mode)
         mode = ~mode
         self.config.set('DEFAULT', 'mode', str(mode))
-        print(self.config.getint('DEFAULT', 'mode'))
         
     def get_mode(self):
         return self.config.getint('DEFAULT', 'mode')

@@ -1,11 +1,7 @@
 from threading import *
-# from Views import display
-# from .main import Main_Controller
 from IO.COMS import *
 from IO.GPS_I2C import getCoords
 # from Views.main import View #Testing
-
-#Made a control class that helps manage the logic of the code. Also made a 
 
 class MainPage_Controller():
     
@@ -20,10 +16,10 @@ class MainPage_Controller():
         self.GPS = None
         self.stop_thread = Event()
     
-    def configure(self):
-        #self.frame.
+    def configure(self): # Configures the buttons
         self.frame.start_button.configure(command=self.start)
         self.frame.modeButton.config(command=self.changeMode)
+        self.frame.settings_button.config(command= lambda: self.view.change_frame("settings"))
     
     def start(self):
         if self.stop_thread:
@@ -53,11 +49,11 @@ class MainPage_Controller():
             try:
                 lat_diff = str(-(user_coords[0] - coords[0]))
                 longit_diff = str(-(user_coords[1] - coords[1]))
-                print(coords)
+                print(coords) #Testing
                 # sendData(lat + "," + longit)
                 if not self.stop_thread.is_set():
                     sendData(lat_diff + "," + longit_diff)
-                    self.frame.update_coords(str(coords[0]), str(coords[1]))
+                    # self.frame.update_coords(str(coords[0]), str(coords[1]))
                     # latNum_text.set(str(coords[0]))
                     # longNum_text.set(str(coords[1]))
             except:

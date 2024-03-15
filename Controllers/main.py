@@ -11,7 +11,7 @@ class Main_Controller:
         self.model = model
         
         self.mainpage_controller = MainPage_Controller(self, view, model)
-        #self.settings_controller = Settings_controller(self, view, model)
+        self.settings_controller = Settings_controller(self, view, model)
         
         parameters("7,8,4,12")
         
