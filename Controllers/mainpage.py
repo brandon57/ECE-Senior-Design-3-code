@@ -36,9 +36,9 @@ class MainPage_Controller():
             # self.frame.update_start("Stop")
             #startButton_text.set("Stop")
             if self.model.get_mode() != 0:
-                self.GPS = Thread(target=self.Sender, daemon=True)
+                self.GPS = Thread(target= lambda: self.Sender, daemon=True)
             else:
-                self.GPS = Thread(target=self.Receiver, daemon=True)
+                self.GPS = Thread(target= lambda: self.Receiver, daemon=True)
             self.GPS.start()
     
     def Sender(self):
