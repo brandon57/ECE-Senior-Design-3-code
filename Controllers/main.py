@@ -1,5 +1,6 @@
-from .mainpage import MainPage_Controller
-from .settings import Settings_controller
+from .mainframe import MainFrame_Controller
+from .settings import Settings_Controller
+from .map import Map_Controller
 from Views.main import View
 from Model.main import Model
 from IO.COMS import parameters
@@ -10,17 +11,12 @@ class Main_Controller:
         self.view = view
         self.model = model
         
-        self.mainpage_controller = MainPage_Controller(self, view, model)
-        self.settings_controller = Settings_controller(self, view, model)
+        self.mainframe_controller = MainFrame_Controller(view, model)
+        self.settings_controller = Settings_Controller(view, model)
+        self.map_controller = Map_Controller(view, model)
         
         parameters("7,8,4,12")
         
-        self.change_frame("mainpage")
+        self.view.change_frame("mainframe")
         
         self.view.start_gui()
-    
-    # This changes what frame is being showed
-    def change_frame(self, name: str):
-        self.view.change_frame(name)
-    
-    

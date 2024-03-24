@@ -1,14 +1,12 @@
 from threading import *
 from IO.COMS import *
 from IO.GPS_I2C import getCoords
-# from Views.main import View #Testing
 
-class MainPage_Controller():
-    def __init__(self, main, view, model):
-        self.main = main
+class MainFrame_Controller():
+    def __init__(self, view, model):
         self.view = view
         self.model = model
-        self.frame = self.view.frames["mainpage"]
+        self.frame = self.view.frames["mainframe"]
 
         self.configure()
         
@@ -19,6 +17,7 @@ class MainPage_Controller():
         self.frame.start_button.configure(command=self.start)
         self.frame.modeButton.config(command=self.changeMode)
         self.frame.settings_button.config(command= lambda: self.view.change_frame("settings"))
+        self.frame.map_button.config(command= lambda: self.view.change_frame("map"))
     
     def start(self):
         if self.stop_thread:

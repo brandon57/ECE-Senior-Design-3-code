@@ -1,13 +1,13 @@
 import tkinter as tk
 from tkinter import ttk, Button
 
-class MainPage(tk.Frame):
+class MainFrame(tk.Frame):
     def __init__(self, *args, **kwargs): #This part sets up the GUI
         tk.Frame.__init__(self, *args, **kwargs)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         
-        #Labels
+        # Labels
         self.latNum_text, self.longNum_text = tk.StringVar(), tk.StringVar()
         self.Lat_label = tk.Label(self, text="Latitude:")
         self.latNum = tk.Label(self, textvariable=self.latNum_text)
@@ -24,7 +24,7 @@ class MainPage(tk.Frame):
         self.latNum_text.set("0.0")
         self.longNum_text.set("0.0")
         
-        #Buttons
+        # Buttons
         self.modeButton_text, self.startButton_text, self.settingsButton_text = tk.StringVar(), tk.StringVar(), tk.StringVar() 
         self.start_button = Button(self, textvariable=self.startButton_text)
         self.start_button.grid(column=3, row=2, sticky="ew")
@@ -35,6 +35,9 @@ class MainPage(tk.Frame):
         self.modeButton.grid(column=0, row=3, sticky="sw")
         # self.modeButton.place(x=0, y=370)
         self.modeButton_text.set("Receiver")
+        
+        self.map_button = Button(self, text="Map")
+        self.map_button.grid(column=6, row=3, sticky="es")
         
         self.settings_button = Button(self, text="Settings")
         self.settings_button.grid(column=6, row=0, sticky="ne")
