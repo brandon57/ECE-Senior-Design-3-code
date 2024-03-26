@@ -1,32 +1,26 @@
 from configparser import ConfigParser, ExtendedInterpolation
+import os.path
 
 class Model:
     def __init__(self):
         self.config = ConfigParser(interpolation=ExtendedInterpolation())
-        self.config['DEFAULT'] = {
-        'start': 'False',
-        'mode': '0',
-        'latitude': '0.0',
-        'longitude': '0.0'
-        }
-        
-        self.config['User'] = {
-            'start': '${DEFAULT:start}',
-            'mode': '${DEFAULT:mode}',
-            'latitude': '${DEFAULT:latitude}',
-            'longitude': '${DEFAULT:longitude}'
-        }
-        
+        self.config.optionxform = str
+        if os.path.isfile('config.ini'):
+            self.config.read('config.ini')
+            self.config.set('User', 'mode', '${DEFAULT:mode}')
+        else:
+            self.config['DEFAULT'] = {
+            'mode': '0',
+            'latitude': '0.0',
+            'longitude': '0.0'
+            }
+            self.config['User'] = {
+                'mode': '${DEFAULT:mode}',
+                'latitude': '${DEFAULT:latitude}',
+                'longitude': '${DEFAULT:longitude}'
+            }
+            
         self.write()
-        
-    def change_start(self):
-        start = self.config.getboolean('User', 'start')
-        start = not start
-        self.config.set('User', 'start', str(start))
-        self.write()
-        
-    def get_start(self):
-        return self.config.getboolean('User', 'start')
     
     def change_mode(self):
         mode = self.config.getint('User', 'mode')
@@ -53,7 +47,6 @@ class Model:
             self.config.write(configfile)
     
     def default(self):
-        self.config.set('User', 'start', '${DEFAULT:start}')
         self.config.set('User', 'mode', '${DEFAULT:mode}')
         self.config.set('User', 'latitude', '${DEFAULT:latitude}')
         self.config.set('User', 'longitude', '${DEFAULT:longitude}')

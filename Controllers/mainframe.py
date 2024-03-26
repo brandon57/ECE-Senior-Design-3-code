@@ -7,7 +7,8 @@ class MainFrame_Controller():
         self.view = view
         self.model = model
         self.frame = self.view.frames["mainframe"]
-
+        self.on = False
+        
         self.configure()
         
         self.GPS = None
@@ -22,13 +23,10 @@ class MainFrame_Controller():
     def start(self):
         if self.stop_thread:
             self.stop_thread.clear()
-        self.model.change_start()
-        # self.start = not self.start
+        self.on = not self.on
         
-        if self.model.get_start() == False:
+        if self.on == False:
             self.frame.startButton_text.set("Start")
-            # self.frame.update_start("Start")
-            #startButton_text.set("Start")
             self.stop()
         else:
             self.frame.startButton_text.set("Stop")
