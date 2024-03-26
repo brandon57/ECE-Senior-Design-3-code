@@ -13,4 +13,4 @@ class Map(tk.Frame):
         
         # Buttons
         self.main_button = Button(self, text="Coords")
-        self.main_button.grid(column=0, row=0, sticky="nw")
+        self.main_button.grid(column=0, row=1, sticky="es")
