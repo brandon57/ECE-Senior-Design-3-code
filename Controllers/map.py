@@ -5,8 +5,9 @@ class Map_Controller:
         self.view = view
         self.model = model
         self.frame = self.view.frames["map"]
-        self.configure()
-        
+        # coords = self.model.get_coords()
+        # self.frame.map_widget.set_position(coords[0], coords[1])
+        self.frame.map_widget.set_position(46.0, -96.0)
         
     def configure(self): # Configures the buttons
         self.frame.main_button.config(command= lambda: self.view.change_frame("mainframe"))
