@@ -9,5 +9,7 @@ class Map_Controller:
         # self.frame.map_widget.set_position(coords[0], coords[1])
         self.frame.map_widget.set_position(46.0, -96.0)
         
+        self.configure()
+        
     def configure(self): # Configures the buttons
         self.frame.main_button.config(command= lambda: self.view.change_frame("mainframe"))

@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import ttk, Button
+import tkintermapview
 
 class MainFrame(tk.Frame):
     def __init__(self, *args, **kwargs): #This part sets up the GUI
@@ -25,7 +26,7 @@ class MainFrame(tk.Frame):
         self.longNum_text.set("0.0")
         
         # Buttons
-        self.modeButton_text, self.startButton_text, self.settingsButton_text = tk.StringVar(), tk.StringVar(), tk.StringVar() 
+        self.modeButton_text, self.startButton_text, self.settingsButton_text, self.map_button_text = tk.StringVar(), tk.StringVar(), tk.StringVar(), tk.StringVar()
         self.start_button = Button(self, textvariable=self.startButton_text)
         self.start_button.grid(column=3, row=2, sticky="ew")
         # self.start_button.place(x=220, y=160)
@@ -36,8 +37,12 @@ class MainFrame(tk.Frame):
         # self.modeButton.place(x=0, y=370)
         self.modeButton_text.set("Receiver")
         
-        self.map_button = Button(self, text="Map")
+        self.map_button = Button(self, textvariable=self.map_button_text)
         self.map_button.grid(column=6, row=3, sticky="es")
+        self.map_button_text.set("Map")
         
         self.settings_button = Button(self, text="Settings")
         self.settings_button.grid(column=6, row=0, sticky="ne")
+        
+        # Map
+        self.map_widget = tkintermapview.TkinterMapView(self)

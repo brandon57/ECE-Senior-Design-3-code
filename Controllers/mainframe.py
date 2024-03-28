@@ -8,6 +8,7 @@ class MainFrame_Controller():
         self.model = model
         self.frame = self.view.frames["mainframe"]
         self.on = False
+        self.map = False
         
         self.configure()
         
@@ -18,7 +19,7 @@ class MainFrame_Controller():
         self.frame.start_button.configure(command=self.start)
         self.frame.modeButton.config(command=self.changeMode)
         self.frame.settings_button.config(command= lambda: self.view.change_frame("settings"))
-        self.frame.map_button.config(command= lambda: self.view.change_frame("map"))
+        self.frame.map_button.config(command= self.show_map)
     
     def start(self):
         if self.stop_thread:
@@ -33,18 +34,23 @@ class MainFrame_Controller():
             # self.frame.update_start("Stop")
             #startButton_text.set("Stop")
             if self.model.get_mode() != 0:
-                self.GPS = Thread(target= lambda: self.Sender, daemon=True)
+                self.GPS = Thread(target= lambda: self.Sender(), daemon=True)
             else:
-                self.GPS = Thread(target= lambda: self.Receiver, daemon=True)
+                self.GPS = Thread(target= lambda: self.Receiver(), daemon=True)
+    
             self.GPS.start()
     
     def Sender(self):
+        print("Sender")
         while not self.stop_thread.is_set():
             coords = getCoords() # grabs coordinates
             user_coords = self.model.get_coords()
+            # print(coords)
             try:
                 lat_diff = str(-(user_coords[0] - coords[0]))
                 longit_diff = str(-(user_coords[1] - coords[1]))
+                self.frame.latNum_text.set(round(coords[0], 4))
+                self.frame.longNum_text.set(round(coords[1], 4))
                 print(coords) #Testing
                 # sendData(lat + "," + longit)
                 if not self.stop_thread.is_set():
@@ -56,6 +62,7 @@ class MainFrame_Controller():
                 continue
     
     def Receiver(self):
+        print("Receiver")
         while not self.stop_thread.is_set():
             data = receiveData().split(",")
             print(data) #Testing
@@ -67,9 +74,6 @@ class MainFrame_Controller():
                 print(lat + "," + longit) #Testing
                 self.frame.latNum_text.set(lat)
                 self.frame.longNum_text.set(longit)
-                # self.frame.update_coords(lat, longit)
-                # latNum_text.set(lat)
-                # longNum_text.set(longit)
             except:
                 print("conversion error")
                 continue
@@ -80,9 +84,18 @@ class MainFrame_Controller():
             self.frame.modeButton_text.set("Receiver")
         else:
             self.frame.modeButton_text.set("Sender")
+    
+    def show_map(self):
+        self.map = not self.map
+        if self.map == True:
+            self.frame.map_button_text.set("Coords")
+            self.frame.Lat_label.grid_forget()
+            self.frame.long_label.grid_forget()
+            self.frame.map_widget.grid(column=1, columnspan=5, row=1, sticky="ew")
+        else:
+            self.frame.map_widget.grid_forget()
         
     def stop(self):
         self.stop_thread.set()
         # self.GPS.join()
-        
         self.GPS = None
