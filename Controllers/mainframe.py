@@ -63,7 +63,6 @@ class MainFrame_Controller():
                 continue
     
     def Receiver(self):
-        print("Receiver")
         while not self.stop_thread.is_set():
             data = receiveData().split(",")
             print(data) #Testing

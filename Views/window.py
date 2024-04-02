@@ -4,7 +4,7 @@ import tkinter as tk
 class Window(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
-        self.title("ECE Senior Design 2")
+        self.title("ECE Senior Design 3")
         self.geometry("500x400")
         # self.attributes('-zoomed', True)
         # self.resizable(height=False, width=False)
