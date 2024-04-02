@@ -22,8 +22,8 @@ class MainFrame(tk.Frame):
         # self.long_label.place(x=300, y=100)
         self.longNum.grid(column=5, row=1, padx=10, sticky="ew")
         # self.longNum.place(x=380, y=100)
-        self.latNum_text.set("0.0")
-        self.longNum_text.set("0.0")
+        self.latNum_text.set("0.0000")
+        self.longNum_text.set("0.0000")
         
         # Buttons
         self.modeButton_text, self.startButton_text, self.settingsButton_text, self.map_button_text = tk.StringVar(), tk.StringVar(), tk.StringVar(), tk.StringVar()
@@ -46,3 +46,4 @@ class MainFrame(tk.Frame):
         
         # Map
         self.map_widget = tkintermapview.TkinterMapView(self)
+        # self.map_widget.set_m

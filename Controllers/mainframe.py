@@ -41,16 +41,17 @@ class MainFrame_Controller():
             self.GPS.start()
     
     def Sender(self):
-        print("Sender")
         while not self.stop_thread.is_set():
             coords = getCoords() # grabs coordinates
             user_coords = self.model.get_coords()
-            # print(coords)
             try:
                 lat_diff = str(-(user_coords[0] - coords[0]))
                 longit_diff = str(-(user_coords[1] - coords[1]))
-                self.frame.latNum_text.set(round(coords[0], 4))
-                self.frame.longNum_text.set(round(coords[1], 4))
+                if self.map == True:
+                    self.frame.map_widget.set_position(round(coords[0], 4), round(coords[1], 4), marker=True)
+                else:
+                    self.frame.latNum_text.set(user_coords[0])
+                    self.frame.longNum_text.set(user_coords[1])
                 print(coords) #Testing
                 # sendData(lat + "," + longit)
                 if not self.stop_thread.is_set():
