@@ -35,6 +35,7 @@ Install the following python3 packages:
     pip install tkintermapview
     pip install pyserial
     pip install smbus2
+    pip install customtkinter
 
 ## Running the program
 Open a terminal in the directory of the application.
