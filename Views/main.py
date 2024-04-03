@@ -1,3 +1,4 @@
+import sys
 from .mainframe import MainFrame
 from .settings import Settings
 from .window import Window
@@ -8,7 +9,7 @@ class View:
         self.window = Window()
         self.window.geometry("800x480") #Screen resolution of our 5" displays
 
-        self.is_fullscreen = True # Start in fullscreen
+        self.is_fullscreen = not ("-w" in sys.argv) # Start in fullscreen?
         self.window.bind("<F11>", self.toggle_fullscreen) # Bind F11 key to toggle fullscreen
         self.window.bind("<Escape>", self.exit_fullscreen) # Bind esc key to exit fullscreen
 
@@ -26,7 +27,8 @@ class View:
         self.frames[name].tkraise()
     
     def start_gui(self):
-        self.window.after(100, lambda: self.window.attributes("-fullscreen", self.is_fullscreen)) # Wait 100ms then enter fullscreen
+        if self.is_fullscreen: # If no -w in args, then go fullscreen 100ms after program starts
+            self.window.after(100, lambda: self.window.attributes("-fullscreen", self.is_fullscreen))
         self.window.mainloop()
 
     def toggle_fullscreen(self, event=None):
