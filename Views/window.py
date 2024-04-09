@@ -5,7 +5,7 @@ class Window(tk.Tk):
     def __init__(self, *args, **kwargs):
         tk.Tk.__init__(self, *args, **kwargs)
         self.title("ECE Senior Design 3")
-        self.geometry("500x400")
+        self.geometry("800x480") #Screen resolution of our 5" displays
         # self.attributes('-zoomed', True)
         # self.resizable(height=False, width=False)
         self.grid_columnconfigure(0, weight=1)

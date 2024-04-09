@@ -9,7 +9,7 @@ class Settings(ctk.CTkFrame):
     def __init__(self, *args, **kwargs): #This part sets up the Settings page
         super().__init__(*args, **kwargs)
         self.configure(corner_radius=0)
-        self.configure(bg_color="white")
+        #self.configure(bg_color="#ffffff")
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
 

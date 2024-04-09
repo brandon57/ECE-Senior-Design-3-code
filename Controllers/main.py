@@ -1,3 +1,4 @@
+import sys
 from .mainframe import MainFrame_Controller
 from .settings import Settings_Controller
 from .map import Map_Controller

@@ -7,7 +7,6 @@ from .map import Map
 class View:
     def __init__(self):
         self.window = Window()
-        self.window.geometry("800x480") #Screen resolution of our 5" displays
 
         self.is_fullscreen = not ("-w" in sys.argv) # Start in fullscreen?
         self.window.bind("<F11>", self.toggle_fullscreen) # Bind F11 key to toggle fullscreen

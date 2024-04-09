@@ -8,11 +8,17 @@ AT_Parameters = "AT+PARAMETER="
 
 def parameters(message):
     data = AT_Parameters + message + "\r\n"
-    device.write(data.encode("ASCII"))
-    
+    try:
+        device.write(data.encode("ASCII"))
+    except:
+        print("Unable to write parameters to UART.")
+
 def sendData(message):
     data = AT_Command + message + "\r\n"
-    device.write(data.encode("ASCII"))
+    try:
+        device.write(data.encode("ASCII"))
+    except:
+        print("Unable to send message over UART.")
     
 def receiveData():
     while True:
@@ -21,7 +27,7 @@ def receiveData():
             if len(message) != 0:
                 return message
         except:
-            return "error"
+            return "Error reading message"
 
 # if __name__ == '__main__':
 #     test = 0
