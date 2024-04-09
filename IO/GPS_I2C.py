@@ -9,17 +9,20 @@ checkSumTable = ["A*60", "A*61", "A*62", "A*63" "A*64", "A*65", "A*66", "A*67", 
 # Takes the GPS data and converts it to latitude and longitude
 def getCoords():
     results = []
-    message = grabGPSData()
-    try:
-        latDMS = float(message[1])
-        longDMS = float(message[3])
-        latMin = DegMinConverter(int(latDMS/100), latDMS - (100*int(latDMS/100)), message[2])
-        longMin = DegMinConverter(int(longDMS/100), longDMS - (100*int(longDMS/100)), message[4])
-        results.append(latMin)
-        results.append(longMin)
-        return results
-    except:
-        print("error")    
+    while True:        
+        message = grabGPSData()
+        try:
+            latDMS = float(message[1])
+            longDMS = float(message[3])
+            latMin = DegMinConverter(int(latDMS/100), latDMS - (100*int(latDMS/100)), message[2])
+            longMin = DegMinConverter(int(longDMS/100), longDMS - (100*int(longDMS/100)), message[4])
+            results.append(latMin)
+            results.append(longMin)
+            return results
+        except:
+            print("error")
+            results.clear()
+            continue
     
 # Grabs the correct GPS message
 def grabGPSData():
@@ -38,9 +41,13 @@ def grabGPSData():
         if len(GPS_Message) != 0:
             temp = [x for x in GPS_Message]
             GPS = ''.join(temp).strip().split(",")
-            if GPS[0] == "$GNGLL" and GPS[6] == 'A' and GPS[7] in checkSumTable:
-                print(GPS)
-                return GPS
+            try:
+                if GPS[0] == "$GNGLL" and GPS[6] == 'A' and GPS[7] in checkSumTable:
+                    print(GPS)
+                    return GPS
+            except:
+                print("Message not fully filled in")
+                continue
             GPS_Message.clear()
             # time.sleep(600/1000) #Used for testing
 
