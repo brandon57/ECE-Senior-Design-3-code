@@ -12,10 +12,19 @@ def getCoords():
     while True:        
         message = grabGPSData()
         try:
-            latDMS = float(message[1])
-            longDMS = float(message[3])
-            latMin = DegMinConverter(int(latDMS/100), latDMS - (100*int(latDMS/100)), message[2])
-            longMin = DegMinConverter(int(longDMS/100), longDMS - (100*int(longDMS/100)), message[4])
+            if message[0][3:6] == "GLL":
+                latDMS = float(message[1])
+                longDMS = float(message[3])
+                latDir = message[2]
+                longDir = message[4]
+            elif message[0][3:6] == "RMC":
+                latDMS = float(message[3])
+                longDMS = float(message[5])
+                latDir = message[4]
+                longDir = message[6]
+                
+            latMin = DegMinConverter(int(latDMS/100), latDMS - (100*int(latDMS/100)), latDir)
+            longMin = DegMinConverter(int(longDMS/100), longDMS - (100*int(longDMS/100)), longDir)
             results.append(latMin)
             results.append(longMin)
             return results
@@ -42,7 +51,13 @@ def grabGPSData():
             temp = [x for x in GPS_Message]
             GPS = ''.join(temp).strip().split(",")
             try:
-                if GPS[0] == "$GNGLL" and GPS[6] == 'A' and GPS[7] in checkSumTable:
+                if GPS[0][3:6] == "GLL" and GPS[6] == 'A' and GPS[7] in checkSumTable:
+                    print(GPS)
+                    return GPS
+                elif GPS[0][3:6] == "RMC" and GPS[2] == 'A':
+                    print(GPS)
+                    return GPS
+                elif GPS[0][3:6] == "GNS":
                     print(GPS)
                     return GPS
             except:
