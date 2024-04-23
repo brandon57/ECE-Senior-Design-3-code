@@ -1,9 +1,9 @@
-import tkinter as tk
+import customtkinter as ctk
 
 # This creates the base window of the whole program
-class Window(tk.Tk):
+class Window(ctk.CTk):
     def __init__(self, *args, **kwargs):
-        tk.Tk.__init__(self, *args, **kwargs)
+        ctk.CTk.__init__(self, *args, **kwargs)
         self.title("ECE Senior Design 3")
         self.geometry("800x480") #Screen resolution of our 5" displays
         # self.attributes('-zoomed', True)

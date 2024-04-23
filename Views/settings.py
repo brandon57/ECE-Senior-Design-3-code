@@ -1,5 +1,5 @@
-import tkinter as tk
-from tkinter import Button
+#import tkinter as tk
+#from tkinter import Button
 import customtkinter as ctk
 
 ctk.set_appearance_mode("light")
