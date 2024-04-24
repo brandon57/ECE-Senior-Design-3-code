@@ -18,6 +18,6 @@ class Main_Controller:
         
         parameters("7,8,4,12")
         
-        self.view.change_frame("mainframe")
+        self.view.change_frame("settings")
         
         self.view.start_gui()

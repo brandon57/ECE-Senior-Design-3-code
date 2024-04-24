@@ -10,3 +10,6 @@ class Window(ctk.CTk):
         # self.resizable(height=False, width=False)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(0, weight=1)
+        
+        ctk.set_appearance_mode("light")
+        ctk.set_default_color_theme("dark-blue")

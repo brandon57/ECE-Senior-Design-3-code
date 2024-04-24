@@ -1,4 +1,10 @@
 class Settings_Controller:
+    
+    # I just had this here for testing, probs should be in model?
+    on = 0
+    mode = 0 
+    map = 0
+
     def __init__(self, view, model):
         self.view = view
         self.model = model
@@ -6,8 +12,46 @@ class Settings_Controller:
 
         self.configure()
         
-    def configure(self): # Configures the buttons
-        test = 0
-        self.frame.back_button.configure(command=lambda: self.view.change_frame("mainframe"))
-        self.frame.toggle_fullscreen_button.configure(command=self.view.toggle_fullscreen)
-        self.frame.map_button.configure(command=lambda: self.view.change_frame("map"))
+    def configure(self):
+
+        self.frame.stop_button.configure(command=lambda: self.changeState(not Settings_Controller.on))        
+        self.frame.change_mode_button.configure(command=lambda: self.changeMode(not Settings_Controller.mode))        
+        self.frame.map_button.configure(command=lambda: self.showMap(not Settings_Controller.map))        
+
+        self.changeState(0) # OFF at program start
+        self.changeMode(0) # Initalize in receiver mode
+        self.showMap(0) # Hide map on startup
+    
+
+    # This should probably be in a model, sorry
+    def changeState(self, on):
+        Settings_Controller.on = on
+        if on == 0:
+            self.frame.stop_button.configure(text="Start", fg_color="green")
+            self.showMap(0)
+            self.frame.change_mode_button.lift()
+            
+
+        else:
+            self.frame.stop_button.configure(text="STOP", fg_color="red")
+            self.frame.change_mode_button.lower()
+
+    def changeMode(self, mode):
+        Settings_Controller.mode = mode
+        if mode == 0:
+            self.frame.mode_label.configure(text="This device is in mobile receiver mode")
+            self.frame.base_location_group.lower()
+            self.frame.receiver_group.lift()
+        else:
+            self.frame.mode_label.configure(text="This device is in base station mode")
+            self.frame.receiver_group.lower()
+            self.frame.base_location_group.lift()
+    
+    def showMap(self, map):
+        Settings_Controller.map = map
+        if self.map == 0:
+            self.frame.map_button.configure(text="Map View")
+            self.frame.map_group.lower()
+        else:
+            self.frame.map_button.configure(text="Stats View")
+            self.frame.map_group.lift()
