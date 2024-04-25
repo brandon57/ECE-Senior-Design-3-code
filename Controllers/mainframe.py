@@ -26,10 +26,10 @@ class MainFrame_Controller():
         self.frame.change_mode_button.configure(command= lambda: self.set_mode(~self.model.get_mode()))
         self.frame.use_current_button.configure(command=self.use_current_coords)
         self.frame.map_button.configure(command= self.show_map)
-        self.frame.base_latitude_button.configure(command=lambda: self.showNumericEntry('latitude'), text= "  " + f"{self.model.get_coords()[0]:.8f}")
-        self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'), text= " " + f"{self.model.get_coords()[1]:.8f}")
+        self.frame.base_latitude_button.configure(command=lambda: self.showNumericEntry('latitude'), text= f"{self.model.get_coords()[0]:.8f}")
+        self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'), text= f"{self.model.get_coords()[1]:.8f}")
         
-        self.show_map()
+        #self.show_map()
     
     def start(self):
         if self.stop_thread:
@@ -39,6 +39,8 @@ class MainFrame_Controller():
         if self.on == False:
             self.frame.stop_button.configure(text="Start", fg_color="green")
             self.frame.change_mode_button.lift()
+            if self.map:
+                self.frame.map_group.lift()
             self.stop()
         else:
             self.frame.stop_button.configure(text="STOP", fg_color="darkred")
@@ -103,7 +105,7 @@ class MainFrame_Controller():
     
     def show_map(self):
         self.map = not self.map
-        if self.map == True:
+        if self.map == False:
             self.frame.map_button.configure(text="Map View")
             self.frame.map_group.lower()
         else:
