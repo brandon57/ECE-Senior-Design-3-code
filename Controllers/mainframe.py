@@ -3,6 +3,8 @@ from Controllers.numericentry import NumericEntryController
 from threading import *
 from IO.COMS import *
 from IO.GPS_I2C import getCoords
+import tkintermapview
+
 
 """This is the controller for the MainFrame Object""" 
 
@@ -30,6 +32,10 @@ class MainFrame_Controller():
         self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'), text= f"{self.model.get_coords()[1]:.8f}")
         
         #self.show_map()
+
+        self.frame.map_widget.canvas.unbind("<ButtonPress-1>")
+        self.frame.map_widget.canvas.unbind("<B1-Motion>")
+
     
     def start(self):
         if self.stop_thread:

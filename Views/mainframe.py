@@ -76,9 +76,11 @@ class MainFrame(ctk.CTkFrame):
         self.map_group = ctk.CTkFrame(self, corner_radius=0)
         self.map_group.grid(row=0, column=0, rowspan = 3, columnspan=6, padx=0, pady=0, sticky="nsew")
         self.map_group.lower()
+        self.map_group.grid_rowconfigure(0, weight=1)
+        self.map_group.grid_columnconfigure(0, weight=1)
 
-        self.map_changeme_label = ctk.CTkLabel(self.map_group, text="Map placeholder :)", font=("default_font", font_size))
-        self.map_changeme_label.grid(row=0, column=0)
+        self.map_widget = tkintermapview.TkinterMapView(self.map_group)
+        self.map_widget.grid(row=0, column=0, sticky="nsew")
 
         self.datetime_label = ctk.CTkLabel(self, text="April 2, 2024", font=("default_font", font_size))
         self.datetime_label.grid(row=3, column=1, columnspan=2, sticky="e", padx=4)
