@@ -12,4 +12,4 @@ class Map_Controller:
         self.configure()
         
     def configure(self): # Configures the buttons
-        self.frame.main_button.config(command= lambda: self.view.change_frame("mainframe"))
+        self.frame.main_button.configure(command= lambda: self.view.change_frame("mainframe"))

@@ -1,10 +1,9 @@
-import tkinter as tk
-from tkinter import Button
+import customtkinter as ctk
 import tkintermapview
 
-class Map(tk.Frame):
+class Map(ctk.CTkFrame):
     def __init__(self, *args, **kwargs):
-        tk.Frame.__init__(self, *args, **kwargs)
+        ctk.CTkFrame.__init__(self, *args, **kwargs)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         
@@ -15,5 +14,5 @@ class Map(tk.Frame):
         # self.map_widget.set_position()
         
         # Buttons
-        self.main_button = Button(self, text="Coords")
+        self.main_button = ctk.CTkButton(self, text="Coords")
         self.main_button.grid(column=0, row=1, sticky="es")

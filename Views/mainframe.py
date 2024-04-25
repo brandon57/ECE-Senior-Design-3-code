@@ -1,19 +1,19 @@
-import tkinter as tk
-from tkinter import ttk, Button
+import customtkinter as ctk
+#from tkinter import ttk, Button
 import tkintermapview
 
-class MainFrame(tk.Frame):
+class MainFrame(ctk.CTkFrame):
     def __init__(self, *args, **kwargs): #This part sets up the GUI
-        tk.Frame.__init__(self, *args, **kwargs)
+        ctk.CTkFrame.__init__(self, *args, **kwargs)
         self.grid_columnconfigure(0, weight=1)
         self.grid_rowconfigure(1, weight=1)
         
         # Labels
-        self.latNum_text, self.longNum_text = tk.StringVar(), tk.StringVar()
-        self.Lat_label = tk.Label(self, text="Latitude:")
-        self.latNum = tk.Label(self, textvariable=self.latNum_text)
-        self.long_label = tk.Label(self, text="Longitude:")
-        self.longNum = tk.Label(self, textvariable=self.longNum_text)
+        self.latNum_text, self.longNum_text = ctk.StringVar(), ctk.StringVar()
+        self.Lat_label = ctk.CTkLabel(self, text="Latitude:")
+        self.latNum = ctk.CTkLabel(self, textvariable=self.latNum_text)
+        self.long_label = ctk.CTkLabel(self, text="Longitude:")
+        self.longNum = ctk.CTkLabel(self, textvariable=self.longNum_text)
         self.Lat_label.grid(column=1, row=1, sticky="ew")
         # self.Lat_label.place(x=100, y=100)
         self.latNum.grid(column=2, row=1, padx=10, sticky="ew")
@@ -26,22 +26,22 @@ class MainFrame(tk.Frame):
         self.longNum_text.set("0.0000")
         
         # Buttons
-        self.modeButton_text, self.startButton_text, self.settingsButton_text, self.map_button_text = tk.StringVar(), tk.StringVar(), tk.StringVar(), tk.StringVar()
-        self.start_button = Button(self, textvariable=self.startButton_text)
+        self.modeButton_text, self.startButton_text, self.settingsButton_text, self.map_button_text = ctk.StringVar(), ctk.StringVar(), ctk.StringVar(), ctk.StringVar()
+        self.start_button = ctk.CTkButton(self, textvariable=self.startButton_text)
         self.start_button.grid(column=3, row=2, sticky="ew")
         # self.start_button.place(x=220, y=160)
         self.startButton_text.set("Start")
         
-        self.modeButton = Button(self, textvariable=self.modeButton_text)
+        self.modeButton = ctk.CTkButton(self, textvariable=self.modeButton_text)
         self.modeButton.grid(column=0, row=3, sticky="sw")
         # self.modeButton.place(x=0, y=370)
         self.modeButton_text.set("Receiver")
         
-        self.map_button = Button(self, textvariable=self.map_button_text)
+        self.map_button = ctk.CTkButton(self, textvariable=self.map_button_text)
         self.map_button.grid(column=6, row=3, sticky="es")
         self.map_button_text.set("Map")
         
-        self.settings_button = Button(self, text="Settings")
+        self.settings_button = ctk.CTkButton(self, text="Settings")
         self.settings_button.grid(column=6, row=0, sticky="ne")
         
         # Map

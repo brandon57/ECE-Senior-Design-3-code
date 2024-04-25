@@ -17,9 +17,9 @@ class MainFrame_Controller():
     
     def configure(self): # Configures the buttons
         self.frame.start_button.configure(command=self.start)
-        self.frame.modeButton.config(command=self.changeMode)
-        self.frame.settings_button.config(command= lambda: self.view.change_frame("settings"))
-        self.frame.map_button.config(command= self.show_map)
+        self.frame.modeButton.configure(command=self.changeMode)
+        self.frame.settings_button.configure(command= lambda: self.view.change_frame("settings"))
+        self.frame.map_button.configure(command= self.show_map)
     
     def start(self):
         if self.stop_thread:
