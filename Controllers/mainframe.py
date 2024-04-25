@@ -1,3 +1,5 @@
+from Views.numericentry import NumericEntry
+from Controllers.numericentry import NumericEntryController
 from threading import *
 from IO.COMS import *
 from IO.GPS_I2C import getCoords
@@ -23,8 +25,10 @@ class MainFrame_Controller():
         self.frame.stop_button.configure(command=self.start)
         self.frame.change_mode_button.configure(command= lambda: self.set_mode(~self.model.get_mode()))
         self.frame.use_current_button.configure(command=self.use_current_coords)
-        # self.frame.settings_button.configure(command= lambda: self.view.change_frame("settings"))
         self.frame.map_button.configure(command= self.show_map)
+        self.frame.base_latitude_button.configure(command=lambda: self.showNumericEntry('latitude'), text= "  " + f"{self.model.get_coords()[0]:.8f}")
+        self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'), text= " " + f"{self.model.get_coords()[1]:.8f}")
+        
         self.show_map()
     
     def start(self):
@@ -79,6 +83,7 @@ class MainFrame_Controller():
                         # Map widget goes here
                         test = 0
                     else:
+                        self.frame.received_location_value.configure(text= str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
                         self.frame.calculated_differential_value.configure(text= data[2] + ", " + data[3])
                         self.frame.actual_location_value.configure(text= lat + ", " + longit)
             except:
@@ -115,6 +120,9 @@ class MainFrame_Controller():
             except:
                 continue
         
+    def showNumericEntry(self, input_type):
+        self.numeric_entry_controller = NumericEntryController(self.frame, self.model, input_type, self)
+        self.numeric_entry_controller.view.grid(row=0, column=0, rowspan=4, columnspan=6, padx=0, pady=0, sticky="nsew")
         
     def stop(self):
         self.stop_thread.set()
