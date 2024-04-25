@@ -21,7 +21,6 @@ class Settings_Controller:
         self.frame.stop_button.configure(command=lambda: self.changeState(not Settings_Controller.on))        
         self.frame.change_mode_button.configure(command=lambda: self.changeMode(not Settings_Controller.mode))        
         self.frame.map_button.configure(command=lambda: self.showMap(not Settings_Controller.map))        
-        self.frame.base_latitude_button.configure(command=lambda: self.showInput(not Settings_Controller.input))  
 
         self.frame.base_latitude_button.configure(command=lambda: self.showNumericEntry('latitude'))
         self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'))
