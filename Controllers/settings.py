@@ -6,27 +6,31 @@ class Settings_Controller:
     
     # I just had this here for testing, probs should be in model?
     on = 0
-    mode = 0 
+    # mode = 0 
     map = 0
 
     def __init__(self, view, model):
         self.view = view
         self.model = model
         self.frame = self.view.frames["settings"]
+        
+        # self.on = 0
+        self.mode = 0 
+        # self.map = 0
 
         self.configure()
         
     def configure(self):
 
         self.frame.stop_button.configure(command=lambda: self.changeState(not Settings_Controller.on))        
-        self.frame.change_mode_button.configure(command=lambda: self.changeMode(not Settings_Controller.mode))        
+        self.frame.change_mode_button.configure(command=lambda: self.changeMode)        
         self.frame.map_button.configure(command=lambda: self.showMap(not Settings_Controller.map))        
 
         self.frame.base_latitude_button.configure(command=lambda: self.showNumericEntry('latitude'))
         self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'))
 
         self.changeState(0) # OFF at program start
-        self.changeMode(0) # Initalize in receiver mode
+        # self.changeMode(0) # Initalize in receiver mode
         self.showMap(0) # Hide map on startup
     
     def changeState(self, on):
@@ -41,8 +45,9 @@ class Settings_Controller:
             self.frame.stop_button.configure(text="STOP", fg_color="darkred")
             self.frame.change_mode_button.lower()
 
-    def changeMode(self, mode):
-        Settings_Controller.mode = mode
+    def changeMode(self):
+        # Settings_Controller.mode = mode
+        self
         if mode == 0:
             self.frame.mode_label.configure(text="This device is in mobile receiver mode")
             self.frame.base_location_group.lower()

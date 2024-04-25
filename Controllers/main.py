@@ -13,11 +13,11 @@ class Main_Controller:
         self.model = model
         
         self.mainframe_controller = MainFrame_Controller(view, model)
-        self.settings_controller = Settings_Controller(view, model)
-        self.map_controller = Map_Controller(view, model)
+        # self.settings_controller = Settings_Controller(view, model)
+        # self.map_controller = Map_Controller(view, model)
         
         parameters("7,8,4,12")
         
-        self.view.change_frame("settings")
+        self.view.change_frame("mainframe")
         
         self.view.start_gui()
