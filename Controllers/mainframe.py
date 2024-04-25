@@ -22,7 +22,7 @@ class MainFrame_Controller():
         
         self.frame.stop_button.configure(command=self.start)
         self.frame.change_mode_button.configure(command= lambda: self.set_mode(~self.model.get_mode()))
-        self.frame.use_current_button.configure(command=self.use_current)
+        self.frame.use_current_button.configure(command=self.use_current_coords)
         # self.frame.settings_button.configure(command= lambda: self.view.change_frame("settings"))
         self.frame.map_button.configure(command= self.show_map)
         self.show_map()
@@ -105,7 +105,7 @@ class MainFrame_Controller():
             self.frame.map_button.configure(text="Stats View")
             self.frame.map_group.lift()
             
-    def use_current(self):
+    def use_current_coords(self):
         while True:
             coords = getCoords()
             try:
