@@ -47,6 +47,8 @@ class MainFrame_Controller():
             self.frame.change_mode_button.lift()
             if self.map:
                 self.frame.map_group.lift()
+                self.frame.stop_button.lift()
+                self.frame.map_button.lift()
             self.stop()
         else:
             self.frame.stop_button.configure(text="STOP", fg_color="darkred")
@@ -117,6 +119,8 @@ class MainFrame_Controller():
         else:
             self.frame.map_button.configure(text="Stats View")
             self.frame.map_group.lift()
+            self.frame.stop_button.lift()
+            self.frame.map_button.lift()
             
     def use_current_coords(self):
         while True:
