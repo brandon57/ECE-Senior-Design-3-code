@@ -1,3 +1,7 @@
+from Views.numericentry import NumericEntry
+from Controllers.numericentry import NumericEntryController
+
+
 class Settings_Controller:
     
     # I just had this here for testing, probs should be in model?
@@ -18,12 +22,13 @@ class Settings_Controller:
         self.frame.change_mode_button.configure(command=lambda: self.changeMode(not Settings_Controller.mode))        
         self.frame.map_button.configure(command=lambda: self.showMap(not Settings_Controller.map))        
 
+        self.frame.base_latitude_button.configure(command=lambda: self.showNumericEntry('latitude'))
+        self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'))
+
         self.changeState(0) # OFF at program start
         self.changeMode(0) # Initalize in receiver mode
         self.showMap(0) # Hide map on startup
     
-
-    # This should probably be in a model, sorry
     def changeState(self, on):
         Settings_Controller.on = on
         if on == 0:
@@ -33,7 +38,7 @@ class Settings_Controller:
             
 
         else:
-            self.frame.stop_button.configure(text="STOP", fg_color="red")
+            self.frame.stop_button.configure(text="STOP", fg_color="darkred")
             self.frame.change_mode_button.lower()
 
     def changeMode(self, mode):
@@ -55,3 +60,7 @@ class Settings_Controller:
         else:
             self.frame.map_button.configure(text="Stats View")
             self.frame.map_group.lift()
+
+    def showNumericEntry(self, input_type):
+        self.numeric_entry_controller = NumericEntryController(self.frame, self.model, input_type, self)
+        self.numeric_entry_controller.view.grid(row=0, column=0, rowspan=4, columnspan=6, padx=0, pady=0, sticky="nsew")
