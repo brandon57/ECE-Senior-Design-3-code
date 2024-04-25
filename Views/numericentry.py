@@ -57,3 +57,4 @@ class NumericEntry(ctk.CTkFrame):
 
         self.bottom_spacer = ctk.CTkFrame(self, height=20, width=60)
         self.bottom_spacer.grid(row=6, column=7)
+        self.bottom_spacer.lower()
