@@ -15,8 +15,8 @@ class View:
         self.frames = {}
         
         self.add_frame("mainframe", MainFrame)
-        self.add_frame("settings", Settings)
-        self.add_frame("map", Map)
+        # self.add_frame("settings", Settings)
+        # self.add_frame("map", Map)
     
     def add_frame(self, name: str, Frame):
         self.frames[name] = Frame(self.window)
