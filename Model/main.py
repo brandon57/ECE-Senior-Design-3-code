@@ -31,9 +31,12 @@ class Model:
     def get_mode(self):
         return self.config.getint('User', 'mode')
     
-    def update_coords(self, lat, longit):
-        self.config.set('User', 'latitude', str(lat))
-        self.config.set('User', 'longitude', str(longit))
+    def update_lat(self, lat):
+        self.config.set('User', 'latitude', lat)
+        self.write()
+    
+    def update_longit(self, longit):
+        self.config.set('User', 'longitude', longit)
         self.write()
         
     def get_coords(self):

@@ -1,21 +1,21 @@
 from Views.numericentry import NumericEntry
 
 class NumericEntryController:
-    def __init__(self, parent, model, input_type, settings):
+    def __init__(self, parent, model, input_type, frame):
         self.model = model
         self.input_type = input_type
         self.view = NumericEntry(parent, self, input_type)
-        self.settings = settings
+        self.frame = frame
 
         self.view.save_button.configure(command=self.save_input)
         self.view.discard_button.configure(command=self.discard_input)
 
         if self.input_type == 'latitude':
-            current_text = self.settings.frame.base_latitude_button.cget('text')
+            current_text = self.frame.frame.base_latitude_button.cget('text')
             self.view.text_box.delete(0, 'end')
             self.view.text_box.insert(0, current_text)
         elif self.input_type == 'longitude':
-            current_text = self.settings.frame.base_longitude_button.cget('text')
+            current_text = self.frame.frame.base_longitude_button.cget('text')
             self.view.text_box.delete(0, 'end')
             self.view.text_box.insert(0, current_text)
 
@@ -29,9 +29,11 @@ class NumericEntryController:
         formatted_value = f"{value:.8f}"
 
         if self.input_type == 'latitude':
-            self.settings.frame.base_latitude_button.configure(text=formatted_value)
+            self.frame.frame.base_latitude_button.configure(text=formatted_value)
+            self.model.update_lat(formatted_value)
         elif self.input_type == 'longitude':
-            self.settings.frame.base_longitude_button.configure(text=formatted_value)
+            self.frame.frame.base_longitude_button.configure(text=formatted_value)
+            self.model.update_longit(formatted_value)
         
         self.view.destroy()
 
