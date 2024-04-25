@@ -27,10 +27,10 @@ class NumericEntry(ctk.CTkFrame):
         self.text_box = ctk.CTkEntry(self, font=("default_font", 28), width=300)
         self.text_box.grid(row=2, column=1, sticky="nsew", padx=10, pady=10)
 
-        self.save_button = ctk.CTkButton(self, text="Save", font=("default_font", 20), fg_color="green")
+        self.save_button = ctk.CTkButton(self, text="Save", font=("default_font", 20), fg_color="green", hover=False)
         self.save_button.grid(row=4, column=1, sticky="nsew", padx=10, pady=5)
         
-        self.discard_button = ctk.CTkButton(self, text="Discard", font=("default_font", 20), fg_color="darkred")
+        self.discard_button = ctk.CTkButton(self, text="Discard", font=("default_font", 20), fg_color="darkred", hover=False)
         self.discard_button.grid(row=5, column=1, sticky="nsew", padx=10, pady=5)
 
         self.middle_spacer = ctk.CTkFrame(self, height=20, width=60)
@@ -52,7 +52,7 @@ class NumericEntry(ctk.CTkFrame):
             colspan = button_details[3] if len(button_details) > 3 else 1
             rowspan = button_details[4] if len(button_details) > 4 else 1
 
-            button = ctk.CTkButton(self, text=text, font=("default_font", 24),  command=lambda b=text: self.controller.on_button_press(b))
+            button = ctk.CTkButton(self, text=text, font=("default_font", 24), hover=False, command=lambda b=text: self.controller.on_button_press(b))
             button.grid(row=row, column=col, columnspan=colspan, rowspan=rowspan, sticky="nsew", padx=5, pady=5)
 
         self.bottom_spacer = ctk.CTkFrame(self, height=20, width=60)
