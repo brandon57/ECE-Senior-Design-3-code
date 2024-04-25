@@ -16,7 +16,7 @@ class MainFrame(ctk.CTkFrame):
         self.mode_label = ctk.CTkLabel(self, text="This device is in base station mode", font=("default_font", font_size + 2))
         self.mode_label.grid(row=0, column=0, columnspan=6)
 
-        self.change_mode_button = ctk.CTkButton(self, text="Change Mode", font=("default_font", font_size), width=144, height=64)
+        self.change_mode_button = ctk.CTkButton(self, text="Change Mode", font=("default_font", font_size), width=144, height=64, hover=False)
         self.change_mode_button.grid(row=0, column=5, padx=20, pady=10, sticky="ne")
         
         # Base location frame
@@ -27,15 +27,15 @@ class MainFrame(ctk.CTkFrame):
 
         self.base_latitude_label = ctk.CTkLabel(self.base_location_group, text="Set fixed latitude: ", font=("default_font", font_size), anchor='e')
         self.base_latitude_label.grid(row=0, column=0, sticky="ew")
-        self.base_latitude_button = ctk.CTkButton(self.base_location_group, text="  46.81243155", font=("default_font", font_size), anchor='w', fg_color="white", text_color="black", corner_radius=0)
+        self.base_latitude_button = ctk.CTkButton(self.base_location_group, text="  46.81243155", font=("default_font", font_size), anchor='w', fg_color="white", text_color="black", corner_radius=0, hover=False)
         self.base_latitude_button.grid(row=0, column=1, sticky="ew")
 
         self.base_longitude_label = ctk.CTkLabel(self.base_location_group, text="Set fixed longitude: ", font=("default_font", font_size), anchor='e')
         self.base_longitude_label.grid(row=1, column=0, sticky="ew")
-        self.base_longitude_button = ctk.CTkButton(self.base_location_group, text=" -96.85435243", font=("default_font", font_size), anchor='w', fg_color="white", text_color="black", corner_radius=0)
+        self.base_longitude_button = ctk.CTkButton(self.base_location_group, text=" -96.85435243", font=("default_font", font_size), anchor='w', fg_color="white", text_color="black", corner_radius=0, hover=False)
         self.base_longitude_button.grid(row=1, column=1, sticky="ew")
 
-        self.use_current_button = ctk.CTkButton(self.base_location_group, text="Use Current Location", font=("default_font", font_size), width=144, height=64)
+        self.use_current_button = ctk.CTkButton(self.base_location_group, text="Use Current Location", font=("default_font", font_size), width=144, height=64, hover=False)
         self.use_current_button.grid(row=0, column=2, rowspan=2, padx=10, pady=10)
 
         # Receiver frame
@@ -85,8 +85,8 @@ class MainFrame(ctk.CTkFrame):
         self.datetime_label = ctk.CTkLabel(self, text="11:25:23 AM", font=("default_font", font_size))
         self.datetime_label.grid(row=3, column=3, columnspan=2, sticky="w", padx=4)
 
-        self.stop_button = ctk.CTkButton(self, text="Start", fg_color="green", font=("default_font", font_size), width=144, height=64)
+        self.stop_button = ctk.CTkButton(self, text="Start", fg_color="green", font=("default_font", font_size), width=144, height=64, hover=False)
         self.stop_button.grid(row=3, column=0, padx=20, pady=20, sticky="sw")
 
-        self.map_button = ctk.CTkButton(self, text="Map View", font=("default_font", font_size), width=144, height=64)
+        self.map_button = ctk.CTkButton(self, text="Map View", font=("default_font", font_size), width=144, height=64, hover=False)
         self.map_button.grid(row=3, column=5, padx=20, pady=20, sticky="se")
