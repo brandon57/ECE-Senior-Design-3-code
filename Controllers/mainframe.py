@@ -64,7 +64,7 @@ class MainFrame_Controller():
                     else:
                         self.frame.received_location_value.configure(text= str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
                         self.frame.calculated_differential_value.configure(text= lat_diff + ", " + longit_diff)
-                        print(coords) #Testing
+                        # print(coords) #Testing
                         sendData(lat_diff + "," + longit_diff)
             except:
                 continue
