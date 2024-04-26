@@ -3,6 +3,8 @@ from Controllers.numericentry import NumericEntryController
 from threading import *
 from IO.COMS import *
 from IO.GPS_I2C import getCoords
+import tkintermapview
+
 
 """This is the controller for the MainFrame Object""" 
 
@@ -26,10 +28,14 @@ class MainFrame_Controller():
         self.frame.change_mode_button.configure(command= lambda: self.set_mode(~self.model.get_mode()))
         self.frame.use_current_button.configure(command=self.use_current_coords)
         self.frame.map_button.configure(command= self.show_map)
-        self.frame.base_latitude_button.configure(command=lambda: self.showNumericEntry('latitude'), text= "  " + f"{self.model.get_coords()[0]:.8f}")
-        self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'), text= " " + f"{self.model.get_coords()[1]:.8f}")
+        self.frame.base_latitude_button.configure(command=lambda: self.showNumericEntry('latitude'), text= f"{self.model.get_coords()[0]:.8f}")
+        self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'), text= f"{self.model.get_coords()[1]:.8f}")
         
-        self.show_map()
+        #self.show_map()
+
+        self.frame.map_widget.canvas.unbind("<ButtonPress-1>")
+        self.frame.map_widget.canvas.unbind("<B1-Motion>")
+
     
     def start(self):
         if self.stop_thread:
@@ -39,6 +45,10 @@ class MainFrame_Controller():
         if self.on == False:
             self.frame.stop_button.configure(text="Start", fg_color="green")
             self.frame.change_mode_button.lift()
+            if self.map:
+                self.frame.map_group.lift()
+                self.frame.stop_button.lift()
+                self.frame.map_button.lift()
             self.stop()
         else:
             self.frame.stop_button.configure(text="STOP", fg_color="darkred")
@@ -64,7 +74,7 @@ class MainFrame_Controller():
                     else:
                         self.frame.received_location_value.configure(text= str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
                         self.frame.calculated_differential_value.configure(text= lat_diff + ", " + longit_diff)
-                        # print(coords) #Testing
+                        print(coords) #Testing
                         sendData(lat_diff + "," + longit_diff)
             except:
                 continue
@@ -103,12 +113,14 @@ class MainFrame_Controller():
     
     def show_map(self):
         self.map = not self.map
-        if self.map == True:
+        if self.map == False:
             self.frame.map_button.configure(text="Map View")
             self.frame.map_group.lower()
         else:
             self.frame.map_button.configure(text="Stats View")
             self.frame.map_group.lift()
+            self.frame.stop_button.lift()
+            self.frame.map_button.lift()
             
     def use_current_coords(self):
         while True:

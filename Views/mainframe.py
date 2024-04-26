@@ -27,12 +27,12 @@ class MainFrame(ctk.CTkFrame):
 
         self.base_latitude_label = ctk.CTkLabel(self.base_location_group, text="Set fixed latitude: ", font=("default_font", font_size), anchor='e')
         self.base_latitude_label.grid(row=0, column=0, sticky="ew")
-        self.base_latitude_button = ctk.CTkButton(self.base_location_group, text="  46.81243155", font=("default_font", font_size), anchor='w', fg_color="white", text_color="black", corner_radius=0, hover=False)
+        self.base_latitude_button = ctk.CTkButton(self.base_location_group, text="", font=("default_font", font_size), anchor='w', fg_color="white", text_color="black", corner_radius=0, hover=False)
         self.base_latitude_button.grid(row=0, column=1, sticky="ew")
 
         self.base_longitude_label = ctk.CTkLabel(self.base_location_group, text="Set fixed longitude: ", font=("default_font", font_size), anchor='e')
         self.base_longitude_label.grid(row=1, column=0, sticky="ew")
-        self.base_longitude_button = ctk.CTkButton(self.base_location_group, text=" -96.85435243", font=("default_font", font_size), anchor='w', fg_color="white", text_color="black", corner_radius=0, hover=False)
+        self.base_longitude_button = ctk.CTkButton(self.base_location_group, text="", font=("default_font", font_size), anchor='w', fg_color="white", text_color="black", corner_radius=0, hover=False)
         self.base_longitude_button.grid(row=1, column=1, sticky="ew")
 
         self.use_current_button = ctk.CTkButton(self.base_location_group, text="Use Current Location", font=("default_font", font_size), width=144, height=64, hover=False)
@@ -74,16 +74,13 @@ class MainFrame(ctk.CTkFrame):
 
         # Map frame
         self.map_group = ctk.CTkFrame(self, corner_radius=0)
-        self.map_group.grid(row=0, column=0, rowspan = 3, columnspan=6, padx=0, pady=0, sticky="nsew")
+        self.map_group.grid(row=0, column=0, rowspan = 4, columnspan=6, padx=0, pady=0, sticky="nsew")
+        self.map_group.lower()
+        self.map_group.grid_rowconfigure(0, weight=1)
+        self.map_group.grid_columnconfigure(0, weight=1)
 
-        self.map_changeme_label = ctk.CTkLabel(self.map_group, text="Map placeholder :)", font=("default_font", font_size))
-        self.map_changeme_label.grid(row=0, column=0)
-
-        self.datetime_label = ctk.CTkLabel(self, text="April 2, 2024", font=("default_font", font_size))
-        self.datetime_label.grid(row=3, column=1, columnspan=2, sticky="e", padx=4)
-
-        self.datetime_label = ctk.CTkLabel(self, text="11:25:23 AM", font=("default_font", font_size))
-        self.datetime_label.grid(row=3, column=3, columnspan=2, sticky="w", padx=4)
+        self.map_widget = tkintermapview.TkinterMapView(self.map_group)
+        self.map_widget.grid(row=0, column=0, sticky="nsew")
 
         self.stop_button = ctk.CTkButton(self, text="Start", fg_color="green", font=("default_font", font_size), width=144, height=64, hover=False)
         self.stop_button.grid(row=3, column=0, padx=20, pady=20, sticky="sw")
