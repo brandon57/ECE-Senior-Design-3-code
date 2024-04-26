@@ -5,7 +5,6 @@ from IO.COMS import *
 from IO.GPS_I2C import getCoords
 import tkintermapview
 
-
 """This is the controller for the MainFrame Object""" 
 
 class MainFrame_Controller():
@@ -16,7 +15,7 @@ class MainFrame_Controller():
         self.on = False
         self.map = False
         self.set_mode(self.model.get_mode())    # Sets the mode to what it was before
-        
+        self.marker = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1])
         self.configure()
         
         self.GPS = None
@@ -30,12 +29,9 @@ class MainFrame_Controller():
         self.frame.map_button.configure(command= self.show_map)
         self.frame.base_latitude_button.configure(command=lambda: self.showNumericEntry('latitude'), text= f"{self.model.get_coords()[0]:.8f}")
         self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'), text= f"{self.model.get_coords()[1]:.8f}")
-        
-        #self.show_map()
 
         self.frame.map_widget.canvas.unbind("<ButtonPress-1>")
         self.frame.map_widget.canvas.unbind("<B1-Motion>")
-
     
     def start(self):
         if self.stop_thread:
@@ -69,13 +65,12 @@ class MainFrame_Controller():
                 lat_diff = str(round(-(user_coords[0] - coords[0]), 8))
                 longit_diff = str(round(-(user_coords[1] - coords[1], 8)))
                 if not self.stop_thread.is_set():
-                    if self.map == True:
-                        self.frame.map_widget.set_position(round(coords[0], 8), round(coords[1], 8), marker=True)
-                    else:
+                    if self.map == False:
                         self.frame.received_location_value.configure(text= str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
                         self.frame.calculated_differential_value.configure(text= lat_diff + ", " + longit_diff)
-                        print(coords) #Testing
-                        sendData(lat_diff + "," + longit_diff)
+                    
+                    print(coords) #Testing
+                    sendData(lat_diff + "," + longit_diff)
             except:
                 continue
     
@@ -90,8 +85,9 @@ class MainFrame_Controller():
                 print(lat + "," + longit) #Testing
                 if not self.stop_thread.is_set():
                     if self.map == True:
-                        # Map widget goes here
-                        test = 0
+                        self.frame.map_widget.set_position(round(coords[0], 8), round(coords[1], 8))
+                        self.marker.set_position(round(coords[0], 8), round(coords[1], 8))
+                        self.marker.set_text(str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
                     else:
                         self.frame.received_location_value.configure(text= str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
                         self.frame.calculated_differential_value.configure(text= data[2] + ", " + data[3])
@@ -117,6 +113,12 @@ class MainFrame_Controller():
             self.frame.map_button.configure(text="Map View")
             self.frame.map_group.lower()
         else:
+            if self.model.get_mode() != 0:
+                coords = self.model.get_coords()
+                self.frame.map_widget.set_position(round(coords[0], 8), round(coords[1], 8))
+                self.marker.set_position(round(coords[0], 8), round(coords[1], 8))
+                self.marker.set_text(str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
+                
             self.frame.map_button.configure(text="Stats View")
             self.frame.map_group.lift()
             self.frame.stop_button.lift()
