@@ -89,6 +89,7 @@ class MainFrame_Controller():
                         self.marker.set_position(round(coords[0], 8), round(coords[1], 8))
                         self.marker.set_text(str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
                     else:
+                        self.frame.receiver_value.configure(text=str(data[4]) + " RSSI")
                         self.frame.received_location_value.configure(text= str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
                         self.frame.calculated_differential_value.configure(text= data[2] + ", " + data[3])
                         self.frame.actual_location_value.configure(text= lat + ", " + longit)
