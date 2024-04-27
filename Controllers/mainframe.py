@@ -131,8 +131,9 @@ class MainFrame_Controller():
             try:
                 self.frame.base_latitude_button.configure(text= str(round(coords[0]), 8))
                 self.frame.base_longitude_button.configure(text= str(round(coords[1]), 8))
-                break
+                return
             except:
+                print("Couldn't set current text")
                 continue
         
     def showNumericEntry(self, input_type):
