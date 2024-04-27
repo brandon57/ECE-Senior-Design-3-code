@@ -62,16 +62,18 @@ class MainFrame_Controller():
             coords = getCoords() # grabs coordinates
             user_coords = self.model.get_coords()
             try:
-                lat_diff = str(round(-(user_coords[0] - coords[0]), 8))
-                longit_diff = str(round(-(user_coords[1] - coords[1], 8)))
+                lat_diff = -(user_coords[0] - coords[0])
+                longit_diff = -(user_coords[1] - coords[1])
                 if not self.stop_thread.is_set():
                     if self.map == False:
-                        self.frame.received_location_value.configure(text= str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
-                        self.frame.calculated_differential_value.configure(text= lat_diff + ", " + longit_diff)
-                    
+                        self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
+                        self.frame.calculated_differential_value.configure(text= f"{lat_diff:.8f}, {longit_diff:.8f}")
+                        self.frame.actual_location_value.configure(text= f"{self.model.get_coords()[0]:.8f}, {self.model.get_coords()[1]:.8f}")
+                        
                     print(coords) #Testing
-                    sendData(lat_diff + "," + longit_diff)
+                    sendData(f"{lat_diff:.8f}, {longit_diff:.8f}")
             except:
+                print("Couldn't set current text")
                 continue
     
     def Mobile(self):
@@ -94,7 +96,7 @@ class MainFrame_Controller():
                         self.frame.calculated_differential_value.configure(text= data[2] + ", " + data[3])
                         self.frame.actual_location_value.configure(text= lat + ", " + longit)
             except:
-                print("conversion error")
+                print("Couldn't set current text")
                 continue
     
     def set_mode(self, mode):
@@ -129,8 +131,10 @@ class MainFrame_Controller():
         while True:
             coords = getCoords()
             try:
-                self.frame.base_latitude_button.configure(text= str(round(coords[0]), 8))
-                self.frame.base_longitude_button.configure(text= str(round(coords[1]), 8))
+                self.model.update_lat(f"{coords[0]:.8f}")
+                self.model.update_longit(f"{coords[1]:.8f}")
+                self.frame.base_latitude_button.configure(text= f"{coords[0]:.8f}")
+                self.frame.base_longitude_button.configure(text= f"{coords[1]:.8f}")
                 return
             except:
                 print("Couldn't set current text")
