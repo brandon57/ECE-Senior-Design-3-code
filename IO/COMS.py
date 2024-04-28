@@ -7,7 +7,7 @@ except:
     print("Error: UART device not found, /dev/ttyS0 was not found.")
     device = serial.Serial(None)
 
-AT_Command = "AT+SEND=101,30,"
+AT_Command = "AT+SEND=0,30,"
 AT_Parameters = "AT+PARAMETER="
 
 def parameters(message):
