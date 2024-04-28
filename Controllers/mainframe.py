@@ -82,19 +82,19 @@ class MainFrame_Controller():
             print(data) #Testing
             coords = getCoords()
             try:
-                lat = str(round(coords[0] - float(data[2]), 8))
-                longit = str(round(coords[1] - float(data[3]), 8))
+                lat = coords[0] - float(data[2])
+                longit = coords[1] - float(data[3])
                 print(lat + "," + longit) #Testing
                 if not self.stop_thread.is_set():
                     if self.map == True:
                         self.frame.map_widget.set_position(round(coords[0], 8), round(coords[1], 8))
                         self.marker.set_position(round(coords[0], 8), round(coords[1], 8))
-                        self.marker.set_text(str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
+                        self.marker.set_text(f"{coords[0]:.8f}, {coords[1]:.8f}")
                     else:
                         self.frame.receiver_value.configure(text=str(data[4]) + " RSSI")
-                        self.frame.received_location_value.configure(text= str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
-                        self.frame.calculated_differential_value.configure(text= data[2] + ", " + data[3])
-                        self.frame.actual_location_value.configure(text= lat + ", " + longit)
+                        self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
+                        self.frame.calculated_differential_value.configure(text= f"{data[2]:.8f}, {data[3]:.8f}")
+                        self.frame.actual_location_value.configure(text= f"{lat:.8f}, {longit:.8f}")
             except:
                 print("Couldn't set current text")
                 continue
