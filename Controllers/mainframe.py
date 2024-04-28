@@ -79,7 +79,7 @@ class MainFrame_Controller():
                         
                     print(coords) #Testing
                     sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
-                    time.sleep(0.5)
+                    #time.sleep(0.5)
             except:
                 print("Couldn't set current text")
                 continue
