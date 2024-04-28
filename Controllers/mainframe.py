@@ -46,7 +46,7 @@ class MainFrame_Controller():
         if self.on == False:
             self.frame.stop_button.configure(text="Start", fg_color="green")
             self.frame.change_mode_button.lift()
-            self.frame.use_current_button.lift()
+            #self.frame.use_current_button.lift()
             if self.map:
                 self.frame.map_group.lift()
                 self.frame.stop_button.lift()
@@ -55,7 +55,7 @@ class MainFrame_Controller():
         else:
             self.frame.stop_button.configure(text="STOP", fg_color="darkred")
             self.frame.change_mode_button.lower()
-            self.frame.use_current_button.lower()
+            #self.frame.use_current_button.lower()
             
             if self.model.get_mode() != 0:
                 self.GPS = Thread(target= lambda: self.Base(), daemon=True)
@@ -140,7 +140,8 @@ class MainFrame_Controller():
             
     def use_current_coords(self):
         while True:
-            coords = getCoords()
+            if (self.mode) and not self.on:
+                coords = getCoords()
             try:
                 self.model.update_lat(f"{coords[0]:.8f}")
                 self.model.update_longit(f"{coords[1]:.8f}")
