@@ -7,7 +7,7 @@ except:
     print("Error: UART device not found, /dev/ttyS0 was not found.")
     device = serial.Serial(None)
 
-AT_Command = "AT+SEND=0,30,"
+AT_Command = "AT+SEND=0,"
 AT_Parameters = "AT+PARAMETER="
 
 def parameters(message):
@@ -18,7 +18,7 @@ def parameters(message):
         print("Unable to write parameters to UART.")
 
 def sendData(message):
-    data = AT_Command + message + "\r\n"
+    data = AT_Command + str(len(message)) + "," +  message + "\r\n"
     try:
         device.write(data.encode("ASCII"))
     except:

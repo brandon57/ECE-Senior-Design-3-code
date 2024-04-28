@@ -16,7 +16,7 @@ class Main_Controller:
         # self.settings_controller = Settings_Controller(view, model)
         # self.map_controller = Map_Controller(view, model)
         
-        parameters("7,8,4,12")
+        parameters("10,9,4,6")
         
         self.view.change_frame("mainframe")
         

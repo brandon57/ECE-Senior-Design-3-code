@@ -4,6 +4,7 @@ from threading import *
 from IO.COMS import *
 from IO.GPS_I2C import getCoords
 import tkintermapview
+import time
 
 """This is the controller for the MainFrame Object""" 
 
@@ -72,6 +73,7 @@ class MainFrame_Controller():
                         
                     print(coords) #Testing
                     sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
+                    time.sleep(2)
             except:
                 print("Couldn't set current text")
                 continue
@@ -91,9 +93,9 @@ class MainFrame_Controller():
                         self.marker.set_position(round(coords[0], 8), round(coords[1], 8))
                         self.marker.set_text(f"{coords[0]:.8f}, {coords[1]:.8f}")
                     else:
-                        self.frame.receiver_value.configure(text=str(data[4]) + " RSSI")
+                        self.frame.receiver_value.configure(text=data[4] + " RSSI")
                         self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
-                        self.frame.calculated_differential_value.configure(text= f"{data[2]:.8f}, {data[3]:.8f}")
+                        self.frame.calculated_differential_value.configure(text= data[2] + "," + data[3])
                         self.frame.actual_location_value.configure(text= f"{lat:.8f}, {longit:.8f}")
             except:
                 print("Couldn't set current text")
