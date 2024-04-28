@@ -140,7 +140,7 @@ class MainFrame_Controller():
             
     def use_current_coords(self):
         while True:
-            if (self.mode) and not self.on:
+            if self.model.get_mode() and not self.on:
                 coords = getCoords()
             try:
                 self.model.update_lat(f"{coords[0]:.8f}")
