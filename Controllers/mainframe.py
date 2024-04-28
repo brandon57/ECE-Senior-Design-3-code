@@ -17,6 +17,10 @@ class MainFrame_Controller():
         self.map = False
         self.set_mode(self.model.get_mode())    # Sets the mode to what it was before
         self.marker = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1])
+        self.marker2 = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1])
+
+        self.lastlat = 0
+        self.lastlong = 0
         self.configure()
         
         self.GPS = None
@@ -86,12 +90,19 @@ class MainFrame_Controller():
             try:
                 lat = coords[0] - float(data[2])
                 longit = coords[1] - float(data[3])
-                print(lat + "," + longit) #Testing
                 if not self.stop_thread.is_set():
                     if self.map == True:
-                        self.frame.map_widget.set_position(round(coords[0], 8), round(coords[1], 8))
-                        self.marker.set_position(round(coords[0], 8), round(coords[1], 8))
-                        self.marker.set_text(f"{coords[0]:.8f}, {coords[1]:.8f}")
+                        self.marker.set_position(lat, longit)
+                        self.marker2.set_position(coords[0], coords[1])
+                        print("set pos")
+                        self.marker.set_text(f"{lat:.8f}, {longit:.8f}")
+                        print("set marker")
+                        if abs(lat - self.lastlat) > 0.0005 or abs(longit - self.lastlong) > 0.0005:
+                            print("in the if")
+                            self.frame.map_widget.set_position(lat, longit)
+                            self.lastlat = lat
+                            self.lastlong = longit
+                        print("if done")
                     else:
                         self.frame.receiver_value.configure(text=data[4] + " RSSI")
                         self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
