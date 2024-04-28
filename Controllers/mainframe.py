@@ -46,6 +46,7 @@ class MainFrame_Controller():
         if self.on == False:
             self.frame.stop_button.configure(text="Start", fg_color="green")
             self.frame.change_mode_button.lift()
+            self.frame.use_current_button.lift()
             if self.map:
                 self.frame.map_group.lift()
                 self.frame.stop_button.lift()
@@ -54,6 +55,7 @@ class MainFrame_Controller():
         else:
             self.frame.stop_button.configure(text="STOP", fg_color="darkred")
             self.frame.change_mode_button.lower()
+            self.frame.use_current_button.lower()
             
             if self.model.get_mode() != 0:
                 self.GPS = Thread(target= lambda: self.Base(), daemon=True)
@@ -77,7 +79,7 @@ class MainFrame_Controller():
                         
                     print(coords) #Testing
                     sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
-                    time.sleep(2)
+                    time.sleep(0.5)
             except:
                 print("Couldn't set current text")
                 continue
@@ -94,15 +96,11 @@ class MainFrame_Controller():
                     if self.map == True:
                         self.marker.set_position(lat, longit)
                         self.marker2.set_position(coords[0], coords[1])
-                        print("set pos")
                         self.marker.set_text(f"{lat:.8f}, {longit:.8f}")
-                        print("set marker")
                         if abs(lat - self.lastlat) > 0.0005 or abs(longit - self.lastlong) > 0.0005:
-                            print("in the if")
                             self.frame.map_widget.set_position(lat, longit)
                             self.lastlat = lat
                             self.lastlong = longit
-                        print("if done")
                     else:
                         self.frame.receiver_value.configure(text=data[4] + " RSSI")
                         self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")

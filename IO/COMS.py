@@ -25,15 +25,20 @@ def sendData(message):
         print("Unable to send message over UART.")
     
 def receiveData():
+    last_message = ''
     while True:
         try:
-            message = device.readline().decode("ASCII").replace('\r\n', '')
+            while True:
+                message = device.readline().decode("ASCII").replace('\r\n', '')
+                if len(message) or not message == 0:
+                    break
+                last_message = message
         except:
             print("Error reading message from UART.")
             return "error"
+        
         try:
-            if len(message) != 0:
-                return message
+            return last_message
         except:
             print ("Error parsing message from UART.")
             return "error"
