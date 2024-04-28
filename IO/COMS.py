@@ -2,9 +2,9 @@ import serial
 import time
 
 try:
-    device = serial.Serial("/dev/ttyAMA0", 115200, timeout=1)
+    device = serial.Serial("/dev/ttyS0", 115200, timeout=1)
 except:
-    print("Error: UART device not found, /dev/ttyAMA0 was not found.")
+    print("Error: UART device not found, /dev/ttyS0 was not found.")
     device = serial.Serial(None)
 
 AT_Command = "AT+SEND=101,30,"
