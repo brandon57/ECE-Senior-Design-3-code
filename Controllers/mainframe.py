@@ -71,7 +71,7 @@ class MainFrame_Controller():
                         self.frame.actual_location_value.configure(text= f"{self.model.get_coords()[0]:.8f}, {self.model.get_coords()[1]:.8f}")
                         
                     print(coords) #Testing
-                    sendData(f"{lat_diff:.8f}, {longit_diff:.8f}")
+                    sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
             except:
                 print("Couldn't set current text")
                 continue
