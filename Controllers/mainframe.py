@@ -139,18 +139,26 @@ class MainFrame_Controller():
             self.frame.map_button.lift()
             
     def use_current_coords(self):
-        while True:
-            if self.model.get_mode() and not self.on:
-                coords = getCoords()
+        if not self.on:
+            coords = getCoords()
+            newlat = coords[0]
+            newlong = coords[1]
+        else:
+            raw_value = self.frame.received_location_value.cget('text')
+            parts = raw_value.split(", ")
             try:
-                self.model.update_lat(f"{coords[0]:.8f}")
-                self.model.update_longit(f"{coords[1]:.8f}")
-                self.frame.base_latitude_button.configure(text= f"{coords[0]:.8f}")
-                self.frame.base_longitude_button.configure(text= f"{coords[1]:.8f}")
-                return
+                newlat = float(parts[0])
+                newlong = float(parts[1])
             except:
-                print("Couldn't set current text")
-                continue
+                print("Failed to read text box value")
+        try:
+            self.model.update_lat(f"{newlat:.8f}")
+            self.model.update_longit(f"{newlong:.8f}")
+            self.frame.base_latitude_button.configure(text= f"{newlat:.8f}")
+            self.frame.base_longitude_button.configure(text= f"{newlong:.8f}")
+            return
+        except:
+            print("Couldn't set current text")
         
     def showNumericEntry(self, input_type):
         self.numeric_entry_controller = NumericEntryController(self.frame, self.model, input_type, self)
