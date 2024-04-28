@@ -4,7 +4,7 @@ import time
 try:
     device = serial.Serial("/dev/ttyS0", 115200, timeout=1)
 except:
-    print("Error: UART device not found, /dev/ttyS0 was not found.")
+    print("Error: UART initalization failed")
     device = serial.Serial(None)
 
 AT_Command = "AT+SEND=0,"
