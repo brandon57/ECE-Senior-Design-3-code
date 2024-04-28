@@ -30,7 +30,7 @@ def receiveData():
         try:
             while True:
                 message = device.readline().decode("ASCII").replace('\r\n', '')
-                if len(message) or not message == 0:
+                if (len(message) == 0 or not message) and len(last_message) != 0:
                     break
                 last_message = message
         except:
