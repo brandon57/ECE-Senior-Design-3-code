@@ -1,6 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=DGPS
-Path=/home/pi/devenv/ECE-Senior-Design-3-code
-Exec=/home/pi/.local/bin/poetry run python main.py
-Terminal=true

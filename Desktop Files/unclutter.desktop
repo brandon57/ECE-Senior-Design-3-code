@@ -1,5 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Unclutter
-Exec=/usr/bin/unclutter --hide-on-touch
-Terminal=true
