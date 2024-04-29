@@ -13,7 +13,7 @@ class MainFrame(ctk.CTkFrame):
 
         # Mode
         # Mode label
-        self.mode_label = ctk.CTkLabel(self, text="This device is in base station mode", font=("default_font", font_size + 2))
+        self.mode_label = ctk.CTkLabel(self, font=("default_font", font_size + 2))
         self.mode_label.grid(row=0, column=0, columnspan=6)
 
         self.change_mode_button = ctk.CTkButton(self, text="Change Mode", font=("default_font", font_size), width=144, height=64, hover=False)
@@ -44,7 +44,7 @@ class MainFrame(ctk.CTkFrame):
         self.receiver_group.grid_rowconfigure((0, 1), weight=1)
         self.receiver_group.grid_columnconfigure((0, 1), weight=1)
 
-        self.receiver_label = ctk.CTkLabel(self.receiver_group, text="LoRA Signal Strength:  ", font=("default_font", font_size), anchor='e')
+        self.receiver_label = ctk.CTkLabel(self.receiver_group, text="LoRa Signal Strength:  ", font=("default_font", font_size), anchor='e')
         self.receiver_label.grid(row=0, column=0, rowspan=2, sticky="e")
 
         self.receiver_value = ctk.CTkLabel(self.receiver_group, text="", font=("default_font", font_size), anchor='w')
