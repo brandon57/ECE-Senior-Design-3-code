@@ -16,8 +16,8 @@ class MainFrame_Controller():
         self.on = False
         self.map = False
         self.set_mode(self.model.get_mode())    # Sets the mode to what it was before
-        self.marker2 = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1], marker_color_outside="darkgray", marker_color_circle="gray")
-        self.marker = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1])
+        self.marker2 = None
+        self.marker = None
 
         self.lastlat = 0
         self.lastlong = 0
@@ -43,6 +43,11 @@ class MainFrame_Controller():
         self.frame.map_widget.set_zoom(19)
     
     def start(self):
+        if type(self.marker2 is None):
+            self.marker2 = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1], marker_color_outside="darkgray", marker_color_circle="gray")
+        if type(self.marker is None):
+            self.marker = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1])
+            
         if self.stop_thread:
             self.stop_thread.clear()
         if self.stop_second_thread:
@@ -194,3 +199,6 @@ class MainFrame_Controller():
         # self.GPS.join()
         self.GPS = None
         self.CoordsSrv = None
+
+        self.marker = None
+        self.marker2 = None
