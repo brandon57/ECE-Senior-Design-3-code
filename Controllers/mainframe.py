@@ -21,10 +21,13 @@ class MainFrame_Controller():
 
         self.lastlat = 0
         self.lastlong = 0
+        self.latestCoords = []
+
         self.configure()
         
         self.GPS = None
         self.stop_thread = Event()
+        self.stop_second_thread = Event()
     
     def configure(self): # Configures the buttons
         
@@ -41,6 +44,8 @@ class MainFrame_Controller():
     def start(self):
         if self.stop_thread:
             self.stop_thread.clear()
+        if self.stop_second_thread:
+            self.stop_second_thread.clear()
         self.on = not self.on
         
         if self.on == False:
@@ -61,6 +66,8 @@ class MainFrame_Controller():
                 self.GPS = Thread(target= lambda: self.Base(), daemon=True)
             else:
                 self.GPS = Thread(target= lambda: self.Mobile(), daemon=True)
+                self.CoordsSrv = Thread(target= lambda: self.CoordsService(), daemon=True)
+                self.CoordsSrv.start()
     
             self.GPS.start()
     
@@ -95,7 +102,7 @@ class MainFrame_Controller():
         while not self.stop_thread.is_set():
             data = receiveData().split(",")
             print(data) #Testing
-            coords = getCoords()
+            coords = self.latestCoords
             try:
                 lat = coords[0] - float(data[2])
                 longit = coords[1] - float(data[3])
@@ -116,6 +123,10 @@ class MainFrame_Controller():
             except:
                 print("Couldn't set current text")
                 continue
+    def CoordsService(self):
+        while not self.stop_second_thread.is_set():
+            coords = getCoords()
+            self.latestCoords = coords
     
     def set_mode(self, mode):
         self.model.set_mode(mode)
@@ -172,6 +183,8 @@ class MainFrame_Controller():
         self.numeric_entry_controller.view.grid(row=0, column=0, rowspan=4, columnspan=6, padx=0, pady=0, sticky="nsew")
         
     def stop(self):
+        self.stop_second_thread.set()
         self.stop_thread.set()
         # self.GPS.join()
         self.GPS = None
+        self.CoordsSrv.stop()
