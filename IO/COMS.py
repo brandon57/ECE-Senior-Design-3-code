@@ -20,6 +20,7 @@ def parameters(message):
 def sendData(message):
     data = AT_Command + str(len(message)) + "," +  message + "\r\n"
     try:
+        device.reset_output_buffer()
         device.write(data.encode("ASCII"))
     except:
         print("Unable to send message over UART.")
@@ -27,7 +28,7 @@ def sendData(message):
 def receiveData():
     while True:
         try:
-            device.flush()
+            device.reset_input_buffer()
             message = device.readline().decode("ASCII").replace('\r\n', '')
         except:
             print("Error reading message from UART.")
@@ -37,7 +38,7 @@ def receiveData():
             if len(message) != 0:
                 return message
         except:
-            print ("Error parsing message from UART.")
+            print ("Error UART message empty.")
             return "error"
 
 # if __name__ == '__main__':

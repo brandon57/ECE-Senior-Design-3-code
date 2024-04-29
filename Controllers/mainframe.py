@@ -17,7 +17,7 @@ class MainFrame_Controller():
         self.map = False
         self.set_mode(self.model.get_mode())    # Sets the mode to what it was before
         self.marker = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1])
-        self.marker2 = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1])
+        self.marker2 = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1], marker_color_outside="darkgray", marker_color_circle="gray")
 
         self.lastlat = 0
         self.lastlong = 0
@@ -40,6 +40,7 @@ class MainFrame_Controller():
 
         self.frame.map_widget.canvas.unbind("<ButtonPress-1>")
         self.frame.map_widget.canvas.unbind("<B1-Motion>")
+        self.frame.map_widget.set_zoom(19)
     
     def start(self):
         if self.stop_thread:
@@ -66,37 +67,40 @@ class MainFrame_Controller():
                 self.GPS = Thread(target= lambda: self.Base(), daemon=True)
             else:
                 self.GPS = Thread(target= lambda: self.Mobile(), daemon=True)
-                self.CoordsSrv = Thread(target= lambda: self.CoordsService(), daemon=True)
-                self.CoordsSrv.start()
-    
+
+            self.CoordsSrv = Thread(target= lambda: self.CoordsService(), daemon=True)
+            self.CoordsSrv.start()
             self.GPS.start()
+
     
     def Base(self):
         last_coords = []
         last_transmission = time.time_ns()
         while not self.stop_thread.is_set():
-            grabbed_coords = getCoords() # grabs coordinates
             last_tx_ago = time.time_ns() - last_transmission
-            if grabbed_coords != last_coords or last_tx_ago > 1000000000:
-                last_coords = grabbed_coords
-                last_transmission = time.time_ns()
-                coords = grabbed_coords
-                user_coords = self.model.get_coords()
-                try:
-                    lat_diff = (user_coords[0] - coords[0])
-                    longit_diff = (user_coords[1] - coords[1])
-                    if not self.stop_thread.is_set():
-                        if self.map == False:
-                            self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
-                            self.frame.calculated_differential_value.configure(text= f"{lat_diff:.8f}, {longit_diff:.8f}")
-                            self.frame.actual_location_value.configure(text= f"{self.model.get_coords()[0]:.8f}, {self.model.get_coords()[1]:.8f}")
-                            
-                        print(coords) #Testing
-                        sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
-                        #time.sleep(0.5)
-                except:
-                    print("Couldn't set current text")
-                    continue
+            coords = self.latestCoords # grabs coordinates
+            if last_coords != coords or last_tx_ago > 1000000000: # did the coords change or has it been a full second since last send?
+                last_coords = coords
+                if (last_tx_ago > 500000000): # was it over a 1/2 sec ago the last one was sent?
+                    last_transmission = time.time_ns()
+                    user_coords = self.model.get_coords()
+                    try:
+                        lat_diff = (user_coords[0] - coords[0])
+                        longit_diff = (user_coords[1] - coords[1])
+                        if not self.stop_thread.is_set():
+                            if self.map == False:
+                                self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
+                                self.frame.calculated_differential_value.configure(text= f"{lat_diff:.8f}, {longit_diff:.8f}")
+                                self.frame.actual_location_value.configure(text= f"{self.model.get_coords()[0]:.8f}, {self.model.get_coords()[1]:.8f}")
+                            else:
+                                self.marker2.set_position(coords[0], coords[1])                          
+                            print(coords) #Testing
+                            sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
+                            #time.sleep(0.5)
+                    except:
+                        print("Couldn't set current text")
+                        continue
+            time.sleep(0.05)
     
     def Mobile(self):
         while not self.stop_thread.is_set():
@@ -109,8 +113,9 @@ class MainFrame_Controller():
                 if not self.stop_thread.is_set():
                     if self.map == True:
                         self.marker.set_position(lat, longit)
-                        self.marker2.set_position(coords[0], coords[1])
                         self.marker.set_text(f"{lat:.8f}, {longit:.8f}")
+                        self.marker2.set_position(coords[0], coords[1])
+                        
                         if abs(lat - self.lastlat) > 0.0005 or abs(longit - self.lastlong) > 0.0005:
                             self.frame.map_widget.set_position(lat, longit)
                             self.lastlat = lat
@@ -150,7 +155,6 @@ class MainFrame_Controller():
                 self.frame.map_widget.set_position(round(coords[0], 8), round(coords[1], 8))
                 self.marker.set_position(round(coords[0], 8), round(coords[1], 8))
                 self.marker.set_text(str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
-                
             self.frame.map_button.configure(text="Stats View")
             self.frame.map_group.lift()
             self.frame.stop_button.lift()

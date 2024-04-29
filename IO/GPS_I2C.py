@@ -61,6 +61,7 @@ def grabGPSData():
                 print("Message not fully filled in")
                 continue
             GPS_Message.clear()
+            time.sleep(0.05)
             # time.sleep(600/1000) #Used for testing
 
 def DegMinConverter(degrees, minutes, direction):
