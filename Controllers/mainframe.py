@@ -187,4 +187,4 @@ class MainFrame_Controller():
         self.stop_thread.set()
         # self.GPS.join()
         self.GPS = None
-        self.CoordsSrv.stop()
+        self.CoordsSrv = None
