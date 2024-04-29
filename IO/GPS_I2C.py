@@ -22,12 +22,13 @@ def getCoords():
                 longDMS = float(message[5])
                 latDir = message[4]
                 longDir = message[6]
-                
-            latMin = DegMinConverter(int(latDMS/100), latDMS - (100*int(latDMS/100)), latDir)
-            longMin = DegMinConverter(int(longDMS/100), longDMS - (100*int(longDMS/100)), longDir)
-            results.append(latMin)
-            results.append(longMin)
-            return results
+
+            if len(latDir) == 1 and len(longDir) == 1:
+                latMin = DegMinConverter(int(latDMS/100), latDMS - (100*int(latDMS/100)), latDir)
+                longMin = DegMinConverter(int(longDMS/100), longDMS - (100*int(longDMS/100)), longDir)
+                results.append(latMin)
+                results.append(longMin)
+                return results
         except:
             print("error getting coords")
             results.clear()
@@ -69,6 +70,7 @@ def DegMinConverter(degrees, minutes, direction):
     
     if (direction == 'W') | (direction == 'S'):
         result = -result
+        
     return result
 
 # For testing

@@ -116,7 +116,7 @@ class MainFrame_Controller():
                         self.marker.set_text(f"{lat:.8f}, {longit:.8f}")
                         self.marker2.set_position(coords[0], coords[1])
                         
-                        if abs(lat - self.lastlat) > 0.0005 or abs(longit - self.lastlong) > 0.0005:
+                        if abs(lat - self.lastlat) > 0.001 or abs(longit - self.lastlong) > 0.001:
                             self.frame.map_widget.set_position(lat, longit)
                             self.lastlat = lat
                             self.lastlong = longit
