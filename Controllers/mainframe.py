@@ -16,8 +16,8 @@ class MainFrame_Controller():
         self.on = False
         self.map = False
         self.set_mode(self.model.get_mode())    # Sets the mode to what it was before
-        self.marker = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1])
         self.marker2 = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1], marker_color_outside="darkgray", marker_color_circle="gray")
+        self.marker = self.frame.map_widget.set_marker(self.model.get_coords()[0], self.model.get_coords()[1])
 
         self.lastlat = 0
         self.lastlong = 0
@@ -93,7 +93,10 @@ class MainFrame_Controller():
                                 self.frame.calculated_differential_value.configure(text= f"{lat_diff:.8f}, {longit_diff:.8f}")
                                 self.frame.actual_location_value.configure(text= f"{self.model.get_coords()[0]:.8f}, {self.model.get_coords()[1]:.8f}")
                             else:
-                                self.marker2.set_position(coords[0], coords[1])                          
+                                self.marker2.set_position(coords[0], coords[1])
+                                time.sleep(0.01)
+                                self.marker.set_position(user_coords[0], user_coords[1])
+                                self.marker.set_text(str(round(user_coords[0], 8)) + ", " + str(round(user_coords[1], 8)))                          
                             print(coords) #Testing
                             sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
                             #time.sleep(0.5)
@@ -112,9 +115,10 @@ class MainFrame_Controller():
                 longit = coords[1] + float(data[3])
                 if not self.stop_thread.is_set():
                     if self.map == True:
+                        self.marker2.set_position(coords[0], coords[1])
+                        time.sleep(0.01)
                         self.marker.set_position(lat, longit)
                         self.marker.set_text(f"{lat:.8f}, {longit:.8f}")
-                        self.marker2.set_position(coords[0], coords[1])
                         
                         if abs(lat - self.lastlat) > 0.001 or abs(longit - self.lastlong) > 0.001:
                             self.frame.map_widget.set_position(lat, longit)
@@ -153,8 +157,6 @@ class MainFrame_Controller():
             if self.model.get_mode() != 0:
                 coords = self.model.get_coords()
                 self.frame.map_widget.set_position(round(coords[0], 8), round(coords[1], 8))
-                self.marker.set_position(round(coords[0], 8), round(coords[1], 8))
-                self.marker.set_text(str(round(coords[0], 8)) + ", " + str(round(coords[1], 8)))
             self.frame.map_button.configure(text="Stats View")
             self.frame.map_group.lift()
             self.frame.stop_button.lift()
