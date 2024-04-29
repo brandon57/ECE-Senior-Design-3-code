@@ -83,8 +83,8 @@ class MainFrame_Controller():
                 coords = grabbed_coords
                 user_coords = self.model.get_coords()
                 try:
-                    lat_diff = -(user_coords[0] - coords[0])
-                    longit_diff = -(user_coords[1] - coords[1])
+                    lat_diff = (user_coords[0] - coords[0])
+                    longit_diff = (user_coords[1] - coords[1])
                     if not self.stop_thread.is_set():
                         if self.map == False:
                             self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
@@ -104,8 +104,8 @@ class MainFrame_Controller():
             print(data) #Testing
             coords = self.latestCoords
             try:
-                lat = coords[0] - float(data[2])
-                longit = coords[1] - float(data[3])
+                lat = coords[0] + float(data[2])
+                longit = coords[1] + float(data[3])
                 if not self.stop_thread.is_set():
                     if self.map == True:
                         self.marker.set_position(lat, longit)
