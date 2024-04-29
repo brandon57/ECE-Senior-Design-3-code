@@ -4,8 +4,6 @@ import time
 bus = smbus2.SMBus(1)
 address = 0x42
 
-#lastaddress = ''
-
 checkSumTable = ["A*60", "A*61", "A*62", "A*63" "A*64", "A*65", "A*66", "A*67", "A*68", "A*69", "A*6A", "A*6B", "A*6C", "A*6D", "A*6E", "A*6F"]
 
 # Takes the GPS data and converts it to latitude and longitude
@@ -29,9 +27,7 @@ def getCoords():
             longMin = DegMinConverter(int(longDMS/100), longDMS - (100*int(longDMS/100)), longDir)
             results.append(latMin)
             results.append(longMin)
-            #if results is not lastresults
             return results
-            #    lastresults = results
         except:
             print("error getting coords")
             results.clear()
@@ -55,13 +51,10 @@ def grabGPSData():
             temp = [x for x in GPS_Message]
             GPS = ''.join(temp).strip().split(",")
             try:
-                if GPS[0][3:6] == "GLL" and GPS[6] == 'A' and GPS[7] in checkSumTable:
+                if GPS[0][3:6] == "GLL" and GPS[6] == 'A':
                     print(GPS)
                     return GPS
                 elif GPS[0][3:6] == "RMC" and GPS[2] == 'A':
-                    print(GPS)
-                    return GPS
-                elif GPS[0][3:6] == "GNS":
                     print(GPS)
                     return GPS
             except:

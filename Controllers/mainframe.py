@@ -65,24 +65,31 @@ class MainFrame_Controller():
             self.GPS.start()
     
     def Base(self):
+        last_coords = []
+        last_transmission = time.time_ns()
         while not self.stop_thread.is_set():
-            coords = getCoords() # grabs coordinates
-            user_coords = self.model.get_coords()
-            try:
-                lat_diff = -(user_coords[0] - coords[0])
-                longit_diff = -(user_coords[1] - coords[1])
-                if not self.stop_thread.is_set():
-                    if self.map == False:
-                        self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
-                        self.frame.calculated_differential_value.configure(text= f"{lat_diff:.8f}, {longit_diff:.8f}")
-                        self.frame.actual_location_value.configure(text= f"{self.model.get_coords()[0]:.8f}, {self.model.get_coords()[1]:.8f}")
-                        
-                    print(coords) #Testing
-                    sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
-                    #time.sleep(0.5)
-            except:
-                print("Couldn't set current text")
-                continue
+            grabbed_coords = getCoords() # grabs coordinates
+            last_tx_ago = time.time_ns() - last_transmission
+            if grabbed_coords != last_coords or last_tx_ago > 1000000000:
+                last_coords = grabbed_coords
+                last_transmission = time.time_ns()
+                coords = grabbed_coords
+                user_coords = self.model.get_coords()
+                try:
+                    lat_diff = -(user_coords[0] - coords[0])
+                    longit_diff = -(user_coords[1] - coords[1])
+                    if not self.stop_thread.is_set():
+                        if self.map == False:
+                            self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
+                            self.frame.calculated_differential_value.configure(text= f"{lat_diff:.8f}, {longit_diff:.8f}")
+                            self.frame.actual_location_value.configure(text= f"{self.model.get_coords()[0]:.8f}, {self.model.get_coords()[1]:.8f}")
+                            
+                        print(coords) #Testing
+                        sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
+                        #time.sleep(0.5)
+                except:
+                    print("Couldn't set current text")
+                    continue
     
     def Mobile(self):
         while not self.stop_thread.is_set():
