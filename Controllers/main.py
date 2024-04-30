@@ -1,7 +1,5 @@
 import sys
 from .mainframe import MainFrame_Controller
-from .settings import Settings_Controller
-from .map import Map_Controller
 from Views.main import View
 from Model.main import Model
 from IO.COMS import parameters
@@ -13,8 +11,6 @@ class Main_Controller:
         self.model = model
         
         self.mainframe_controller = MainFrame_Controller(view, model)
-        # self.settings_controller = Settings_Controller(view, model)
-        # self.map_controller = Map_Controller(view, model)
         
         parameters("10,9,4,6")
         

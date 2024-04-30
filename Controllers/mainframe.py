@@ -33,7 +33,7 @@ class MainFrame_Controller():
         
         self.frame.stop_button.configure(command=self.start)
         self.frame.change_mode_button.configure(command= lambda: self.set_mode(~self.model.get_mode()))
-        self.frame.use_current_button.configure(command=self.use_current_coords)
+        self.frame.use_current_button.configure(command= lambda: Thread(target= self.use_current_coords, daemon=True).start())
         self.frame.map_button.configure(command= self.show_map)
         self.frame.base_latitude_button.configure(command=lambda: self.showNumericEntry('latitude'), text= f"{self.model.get_coords()[0]:.8f}")
         self.frame.base_longitude_button.configure(command=lambda: self.showNumericEntry('longitude'), text= f"{self.model.get_coords()[1]:.8f}")
@@ -53,7 +53,6 @@ class MainFrame_Controller():
         if self.on == False:
             self.frame.stop_button.configure(text="Start", fg_color="green")
             self.frame.change_mode_button.lift()
-            #self.frame.use_current_button.lift()
             if self.map:
                 self.frame.map_group.lift()
                 self.frame.stop_button.lift()
@@ -62,7 +61,6 @@ class MainFrame_Controller():
         else:
             self.frame.stop_button.configure(text="STOP", fg_color="darkred")
             self.frame.change_mode_button.lower()
-            #self.frame.use_current_button.lower()
             
             if self.model.get_mode() != 0:
                 self.GPS = Thread(target= lambda: self.Base(), daemon=True)
@@ -80,30 +78,34 @@ class MainFrame_Controller():
         while not self.stop_thread.is_set():
             last_tx_ago = time.time_ns() - last_transmission
             coords = self.latestCoords # grabs coordinates
-            if last_coords != coords or last_tx_ago > 1000000000: # did the coords change or has it been a full second since last send?
-                last_coords = coords
-                if (last_tx_ago > 500000000): # was it over a 1/2 sec ago the last one was sent?
-                    last_transmission = time.time_ns()
-                    user_coords = self.model.get_coords()
-                    try:
-                        lat_diff = (user_coords[0] - coords[0])
-                        longit_diff = (user_coords[1] - coords[1])
-                        if not self.stop_thread.is_set():
-                            if self.map == False:
-                                self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
-                                self.frame.calculated_differential_value.configure(text= f"{lat_diff:.8f}, {longit_diff:.8f}")
-                                self.frame.actual_location_value.configure(text= f"{self.model.get_coords()[0]:.8f}, {self.model.get_coords()[1]:.8f}")
-                            else:
-                                self.marker2.set_position(coords[0], coords[1])
-                                time.sleep(0.01)
-                                self.marker.set_position(user_coords[0], user_coords[1])
-                                self.marker.set_text(str(round(user_coords[0], 8)) + ", " + str(round(user_coords[1], 8)))                          
-                            print(coords) #Testing
-                            sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
-                            #time.sleep(0.5)
-                    except:
-                        print("Couldn't set current text")
-                        continue
+            if coords != []:
+                if (last_coords != coords or last_tx_ago > 1000000000): # did the coords change or has it been a full second since last send?
+                    last_coords = coords
+                    if (last_tx_ago > 500000000): # was it over a 1/2 sec ago the last one was sent?
+                        last_transmission = time.time_ns()
+                        user_coords = self.model.get_coords()
+                        try:
+                            lat_diff = (user_coords[0] - coords[0])
+                            longit_diff = (user_coords[1] - coords[1])
+                            if not self.stop_thread.is_set():
+                                if self.map == False:
+                                    self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
+                                    self.frame.calculated_differential_value.configure(text= f"{lat_diff:.8f}, {longit_diff:.8f}")
+                                    self.frame.actual_location_value.configure(text= f"{self.model.get_coords()[0]:.8f}, {self.model.get_coords()[1]:.8f}")
+                                else:
+                                    self.marker2.set_position(coords[0], coords[1])
+                                    time.sleep(0.01)
+                                    self.marker.set_position(user_coords[0], user_coords[1])
+                                    self.marker.set_text(str(round(user_coords[0], 8)) + ", " + str(round(user_coords[1], 8)))                          
+                                print(coords) #Testing
+                                sendData(f"{lat_diff:.8f},{longit_diff:.8f}")
+                        except:
+                            print("Couldn't set current text")
+                            continue
+            else:
+                self.frame.received_location_value.configure(text= "Acquiring location")
+                self.frame.calculated_differential_value.configure(text= "Acquiring location")
+                self.frame.actual_location_value.configure(text= "Acquiring location")
             time.sleep(0.05)
     
     def Mobile(self):
@@ -133,10 +135,11 @@ class MainFrame_Controller():
             except:
                 print("Couldn't set current text")
                 continue
+    
     def CoordsService(self):
         while not self.stop_second_thread.is_set():
-            coords = getCoords()
-            self.latestCoords = coords
+            self.latestCoords = getCoords()
+        self.latestCoords.clear()
     
     def set_mode(self, mode):
         self.model.set_mode(mode)
@@ -164,26 +167,38 @@ class MainFrame_Controller():
             self.frame.map_button.lift()
             
     def use_current_coords(self):
-        if not self.on:
-            coords = getCoords()
-            newlat = coords[0]
-            newlong = coords[1]
-        else:
-            raw_value = self.frame.received_location_value.cget('text')
-            parts = raw_value.split(", ")
+        if self.frame.base_latitude_button.cget('text') != "Acquiring location" or self.frame.base_longitude_button.cget('text') != "Acquiring location":
+            self.frame.base_latitude_button.configure(text= "Acquiring location")
+            self.frame.base_longitude_button.configure(text= "Acquiring location")
+            if not self.on:
+                self.frame.stop_button.lower()
+                self.frame.map_button.lower()
+                coords = getCoords()
+                newlat = coords[0]
+                newlong = coords[1]
+                if self.frame.base_latitude_button.cget('text') != "Acquiring location" or self.frame.base_longitude_button.cget('text') != "Acquiring location":
+                    self.frame.stop_button.lift()
+                    self.frame.map_button.lift()
+                    return
+            else:
+                raw_value = self.frame.received_location_value.cget('text')
+                parts = raw_value.split(", ")
+                try:
+                    newlat = float(parts[0])
+                    newlong = float(parts[1])
+                except:
+                    print("Failed to read text box value")
+                
             try:
-                newlat = float(parts[0])
-                newlong = float(parts[1])
+                self.model.update_lat(f"{newlat:.8f}")
+                self.model.update_longit(f"{newlong:.8f}")
+                self.frame.base_latitude_button.configure(text= f"{newlat:.8f}")
+                self.frame.base_longitude_button.configure(text= f"{newlong:.8f}")
+                self.frame.stop_button.lift()
+                self.frame.map_button.lift()
+                return
             except:
-                print("Failed to read text box value")
-        try:
-            self.model.update_lat(f"{newlat:.8f}")
-            self.model.update_longit(f"{newlong:.8f}")
-            self.frame.base_latitude_button.configure(text= f"{newlat:.8f}")
-            self.frame.base_longitude_button.configure(text= f"{newlong:.8f}")
-            return
-        except:
-            print("Couldn't set current text")
+                print("Couldn't set current text")
         
     def showNumericEntry(self, input_type):
         self.numeric_entry_controller = NumericEntryController(self.frame, self.model, input_type, self)
@@ -192,6 +207,5 @@ class MainFrame_Controller():
     def stop(self):
         self.stop_second_thread.set()
         self.stop_thread.set()
-        # self.GPS.join()
         self.GPS = None
         self.CoordsSrv = None

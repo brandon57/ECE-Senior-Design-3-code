@@ -7,7 +7,6 @@ class Model:
         self.config.optionxform = str
         if os.path.isfile('config.ini'):
             self.config.read('config.ini')
-            # self.config.set('User', 'mode', '${DEFAULT:mode}')
         else:
             self.config['DEFAULT'] = {
             'mode': '0',
@@ -23,8 +22,6 @@ class Model:
         self.write()
     
     def set_mode(self, mode):
-        # mode = self.config.getint('User', 'mode')
-        # mode = ~mode
         self.config.set('User', 'mode', str(mode))
         self.write()
         
