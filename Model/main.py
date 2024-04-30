@@ -7,7 +7,6 @@ class Model:
         self.config.optionxform = str
         if os.path.isfile('config.ini'):
             self.config.read('config.ini')
-            self.config.set('User', 'mode', '${DEFAULT:mode}')
         else:
             self.config['DEFAULT'] = {
             'mode': '0',
@@ -22,18 +21,19 @@ class Model:
             
         self.write()
     
-    def change_mode(self):
-        mode = self.config.getint('User', 'mode')
-        mode = ~mode
+    def set_mode(self, mode):
         self.config.set('User', 'mode', str(mode))
         self.write()
         
     def get_mode(self):
         return self.config.getint('User', 'mode')
     
-    def update_coords(self, lat, longit):
-        self.config.set('User', 'latitude', str(lat))
-        self.config.set('User', 'longitude', str(longit))
+    def update_lat(self, lat):
+        self.config.set('User', 'latitude', lat)
+        self.write()
+    
+    def update_longit(self, longit):
+        self.config.set('User', 'longitude', longit)
         self.write()
         
     def get_coords(self):
