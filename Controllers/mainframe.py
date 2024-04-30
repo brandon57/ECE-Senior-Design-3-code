@@ -133,7 +133,7 @@ class MainFrame_Controller():
                         self.marker.set_position(lat, longit)
                         self.marker.set_text(f"{lat:.8f}, {longit:.8f}")
                         
-                        if abs(lat - self.lastlat) > 0.001 or abs(longit - self.lastlong) > 0.001:
+                        if abs(lat - self.lastlat) > 0.0005 or abs(longit - self.lastlong) > 0.0003:
                             self.frame.map_widget.set_position(lat, longit)
                             self.lastlat = lat
                             self.lastlong = longit
@@ -179,9 +179,9 @@ class MainFrame_Controller():
             
     def use_current_coords(self):
         if self.frame.base_latitude_button.cget('text') != "Acquiring location" or self.frame.base_longitude_button.cget('text') != "Acquiring location":
-            self.frame.base_latitude_button.configure(text= "Acquiring location")
-            self.frame.base_longitude_button.configure(text= "Acquiring location")
             if not self.on:
+                self.frame.base_latitude_button.configure(text= "Acquiring location")
+                self.frame.base_longitude_button.configure(text= "Acquiring location")
                 self.frame.stop_button.lower()
                 self.frame.map_button.lower()
                 coords = getCoords()
