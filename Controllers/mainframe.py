@@ -57,7 +57,8 @@ class MainFrame_Controller():
                 self.frame.map_group.lift()
                 self.frame.stop_button.lift()
                 self.frame.map_button.lift()
-            if self.frame.received_location_value.cget('text') == "Awaiting Data" or self.frame.received_location_value.cget('text') == "Acquiring location":
+            time.sleep(0.1) # Not my favorite fix but sometimes the base thread still writes awaiting location if it didnt finish
+            if self.frame.received_location_value.cget('text') == "Awaiting data" or self.frame.received_location_value.cget('text') == "Acquiring location":
                 self.frame.received_location_value.configure(text= "")
                 self.frame.calculated_differential_value.configure(text= "")
                 self.frame.actual_location_value.configure(text= "")
@@ -114,10 +115,10 @@ class MainFrame_Controller():
             time.sleep(0.05)
     
     def Mobile(self):
-        self.frame.receiver_value.configure(text= "Awaiting Data")
-        self.frame.received_location_value.configure(text= "Awaiting Data")
-        self.frame.calculated_differential_value.configure(text= "Awaiting Data")
-        self.frame.actual_location_value.configure(text= "Awaiting Data")
+        self.frame.receiver_value.configure(text= "Awaiting data")
+        self.frame.received_location_value.configure(text= "Awaiting data")
+        self.frame.calculated_differential_value.configure(text= "Awaiting data")
+        self.frame.actual_location_value.configure(text= "Awaiting data")
         while not self.stop_thread.is_set():
             data = receiveData().split(",")
             print(data) #Testing
