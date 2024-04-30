@@ -57,6 +57,11 @@ class MainFrame_Controller():
                 self.frame.map_group.lift()
                 self.frame.stop_button.lift()
                 self.frame.map_button.lift()
+            if self.frame.received_location_value.cget('text') == "Awaiting Data" or self.frame.received_location_value.cget('text') == "Acquiring location":
+                self.frame.received_location_value.configure(text= "")
+                self.frame.calculated_differential_value.configure(text= "")
+                self.frame.actual_location_value.configure(text= "")
+            self.frame.receiver_value.configure(text= "")
             self.stop()
         else:
             self.frame.stop_button.configure(text="STOP", fg_color="darkred")
@@ -109,6 +114,10 @@ class MainFrame_Controller():
             time.sleep(0.05)
     
     def Mobile(self):
+        self.frame.receiver_value.configure(text= "Awaiting Data")
+        self.frame.received_location_value.configure(text= "Awaiting Data")
+        self.frame.calculated_differential_value.configure(text= "Awaiting Data")
+        self.frame.actual_location_value.configure(text= "Awaiting Data")
         while not self.stop_thread.is_set():
             data = receiveData().split(",")
             print(data) #Testing
@@ -135,6 +144,7 @@ class MainFrame_Controller():
             except:
                 print("Couldn't set current text")
                 continue
+        
     
     def CoordsService(self):
         while not self.stop_second_thread.is_set():
