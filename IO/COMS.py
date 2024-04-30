@@ -2,7 +2,7 @@ import serial
 import time
 
 try:
-    device = serial.Serial("/dev/ttyS0", 115200, timeout=1)
+    device = serial.Serial("/dev/ttyS0", 115200, timeout=3)
 except:
     print("Error: UART initalization failed")
     device = serial.Serial(None)
@@ -26,20 +26,22 @@ def sendData(message):
         print("Unable to send message over UART.")
     
 def receiveData():
-    while True:
-        try:
-            device.reset_input_buffer()
-            message = device.readline().decode("ASCII").replace('\r\n', '')
-        except:
-            print("Error reading message from UART.")
-            return "error"
-        
-        try:
-            if len(message) != 0:
-                return message
-        except:
-            print ("Error UART message empty.")
-            return "error"
+    try:
+        device.reset_input_buffer()
+        message = device.readline().decode("ASCII").replace('\r\n', '')
+    except:
+        print("Error reading message from UART.")
+        return "error"
+    
+    try:
+        if len(message) != 0:
+            last_success = time.time_ns()
+            return message
+    except:
+        print ("Error UART message empty.")
+        return "error"
+    print("Nothing to read from UART.")
+    return "error"
 
 # if __name__ == '__main__':
 #     test = 0

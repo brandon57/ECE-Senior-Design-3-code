@@ -9,36 +9,46 @@ checkSumTable = ["A*60", "A*61", "A*62", "A*63" "A*64", "A*65", "A*66", "A*67", 
 # Takes the GPS data and converts it to latitude and longitude
 def getCoords():
     results = []
-    while True:        
+    last_success = time.time_ns()
+    last_attempt = time.time_ns()
+    while last_attempt - last_success < 3000000000:
+        last_attempt = time.time_ns()      
         message = grabGPSData()
-        try:
-            if message[0][3:6] == "GLL":
-                latDMS = float(message[1])
-                longDMS = float(message[3])
-                latDir = message[2]
-                longDir = message[4]
-            elif message[0][3:6] == "RMC":
-                latDMS = float(message[3])
-                longDMS = float(message[5])
-                latDir = message[4]
-                longDir = message[6]
+        if message != []:
+            try:
+                if message[0][3:6] == "GLL":
+                    latDMS = float(message[1])
+                    longDMS = float(message[3])
+                    latDir = message[2]
+                    longDir = message[4]
+                elif message[0][3:6] == "RMC":
+                    latDMS = float(message[3])
+                    longDMS = float(message[5])
+                    latDir = message[4]
+                    longDir = message[6]
 
-            if len(latDir) == 1 and len(longDir) == 1:
-                latMin = DegMinConverter(int(latDMS/100), latDMS - (100*int(latDMS/100)), latDir)
-                longMin = DegMinConverter(int(longDMS/100), longDMS - (100*int(longDMS/100)), longDir)
-                results.append(latMin)
-                results.append(longMin)
-                return results
-        except:
-            print("error getting coords")
-            results.clear()
-            continue
+                if len(latDir) == 1 and len(longDir) == 1:
+                    latMin = DegMinConverter(int(latDMS/100), latDMS - (100*int(latDMS/100)), latDir)
+                    longMin = DegMinConverter(int(longDMS/100), longDMS - (100*int(longDMS/100)), longDir)
+                    results.append(latMin)
+                    results.append(longMin)
+                    last_success = time.time_ns()
+                    return results
+            except:
+                print("error getting coords")
+                results.clear()
+                continue
+    print("Nothing to read from GPS.")
+    return []
     
 # Grabs the correct GPS message
 def grabGPSData():
     GPS_Message = []
     GPS = ""
-    while True:
+    last_success = time.time_ns()
+    last_attempt = time.time_ns()
+    while last_attempt - last_success < 1000000000:
+        last_attempt = time.time_ns()
         data = chr(bus.read_byte(address))
         if data == '$':
             GPS_Message.append(data)
@@ -54,17 +64,19 @@ def grabGPSData():
             try:
                 if GPS[0][3:6] == "GLL" and GPS[6] == 'A':
                     print(GPS)
+                    last_success = time.time_ns()
                     return GPS
                 elif GPS[0][3:6] == "RMC" and GPS[2] == 'A':
                     print(GPS)
+                    last_success = time.time_ns()
                     return GPS
             except:
                 print("Message not fully filled in")
                 continue
             GPS_Message.clear()
             time.sleep(0.05)
-            # time.sleep(600/1000) #Used for testing
-
+    return []
+            
 def DegMinConverter(degrees, minutes, direction):
     result = degrees + (minutes/60)
     

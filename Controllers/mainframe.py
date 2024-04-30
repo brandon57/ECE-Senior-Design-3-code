@@ -120,37 +120,43 @@ class MainFrame_Controller():
         self.frame.calculated_differential_value.configure(text= "Awaiting data")
         self.frame.actual_location_value.configure(text= "Awaiting data")
         while not self.stop_thread.is_set():
-            data = receiveData().split(",")
-            print(data) #Testing
-            coords = self.latestCoords
-            try:
-                lat = coords[0] + float(data[2])
-                longit = coords[1] + float(data[3])
-                if not self.stop_thread.is_set():
-                    if self.map == True:
-                        self.marker2.set_position(coords[0], coords[1])
-                        time.sleep(0.01)
-                        self.marker.set_position(lat, longit)
-                        self.marker.set_text(f"{lat:.8f}, {longit:.8f}")
-                        
-                        if abs(lat - self.lastlat) > 0.0005 or abs(longit - self.lastlong) > 0.0003:
-                            self.frame.map_widget.set_position(lat, longit)
-                            self.lastlat = lat
-                            self.lastlong = longit
-                    else:
-                        self.frame.receiver_value.configure(text=data[4] + " RSSI")
-                        self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
-                        self.frame.calculated_differential_value.configure(text= data[2] + "," + data[3])
-                        self.frame.actual_location_value.configure(text= f"{lat:.8f}, {longit:.8f}")
-            except:
-                print("Couldn't set current text")
-                continue
+            rx = receiveData()
+            if rx != 'error':
+                data = rx.split(",")
+                print(data) #Testing
+                coords = self.latestCoords
+                try:
+                    lat = coords[0] + float(data[2])
+                    longit = coords[1] + float(data[3])
+                    if not self.stop_thread.is_set():
+                        if self.map == True:
+                            self.marker2.set_position(coords[0], coords[1])
+                            time.sleep(0.01)
+                            self.marker.set_position(lat, longit)
+                            self.marker.set_text(f"{lat:.8f}, {longit:.8f}")
+                            
+                            if abs(lat - self.lastlat) > 0.0005 or abs(longit - self.lastlong) > 0.0003:
+                                self.frame.map_widget.set_position(lat, longit)
+                                self.lastlat = lat
+                                self.lastlong = longit
+                        else:
+                            self.frame.receiver_value.configure(text=data[4] + " RSSI")
+                            self.frame.received_location_value.configure(text= f"{coords[0]:.8f}, {coords[1]:.8f}")
+                            self.frame.calculated_differential_value.configure(text= data[2] + "," + data[3])
+                            self.frame.actual_location_value.configure(text= f"{lat:.8f}, {longit:.8f}")
+                except:
+                    print("Couldn't set current text")
+                    continue
         
     
     def CoordsService(self):
+        print("Begin CoordsService")
         while not self.stop_second_thread.is_set():
-            self.latestCoords = getCoords()
-        self.latestCoords.clear()
+            coords = getCoords()
+            if not self.stop_second_thread.is_set():
+                self.latestCoords = coords
+        print("End CoordsService")
+
     
     def set_mode(self, mode):
         self.model.set_mode(mode)
@@ -220,3 +226,4 @@ class MainFrame_Controller():
         self.stop_thread.set()
         self.GPS = None
         self.CoordsSrv = None
+        self.latestCoords.clear()
