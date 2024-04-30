@@ -73,6 +73,7 @@ class MainFrame_Controller():
             else:
                 self.GPS = Thread(target= lambda: self.Mobile(), daemon=True)
 
+            
             self.CoordsSrv = Thread(target= lambda: self.CoordsService(), daemon=True)
             self.CoordsSrv.start()
             self.GPS.start()
@@ -152,9 +153,13 @@ class MainFrame_Controller():
     def CoordsService(self):
         print("Begin CoordsService")
         while not self.stop_second_thread.is_set():
-            coords = getCoords()
-            if not self.stop_second_thread.is_set():
-                self.latestCoords = coords
+            try:
+                coords = getCoords()
+                if not self.stop_second_thread.is_set():
+                    self.latestCoords = coords
+            except:
+                print("getCoords failed") 
+                time.sleep(1)
         print("End CoordsService")
 
     
@@ -224,6 +229,10 @@ class MainFrame_Controller():
     def stop(self):
         self.stop_second_thread.set()
         self.stop_thread.set()
+        # if self.GPS.is_alive():
+        #     self.GPS.join()
+        if self.CoordsSrv.is_alive():
+            self.CoordsSrv.join()
         self.GPS = None
         self.CoordsSrv = None
         self.latestCoords.clear()
