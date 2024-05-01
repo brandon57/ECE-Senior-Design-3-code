@@ -1,7 +1,9 @@
 
 # ECE-Senior-Design-3-code
 
-Here is a list of the parts we used [Parts List](https://ndusbpos-my.sharepoint.com/:x:/g/personal/brandon_sitarz_ndus_edu/EYj7pP6WB-dNunrzTcp5bb8Bgdo8WEn6w1ga-DmnN949Dw?e=9menLp)
+<p align="center">
+  <img src="Documents/Pictures/Devices.png" width="500" />
+</p>
 
 ### Description of the project
 This project features 2 seperate GPS modules to improve the accuracy of location tracking. One GPS module will have a location drift exceeding 100+ feet due to atmospheric disturbances.
@@ -13,8 +15,6 @@ This project features 2 seperate GPS modules to improve the accuracy of location
 Using a differential GPS configuration can improve speed and accuracy of position acquisition, and correct drifting as shown above.
 
 ### Schematic
-
-
 <p align="center">
   <img src="Documents/Pictures/Schematic.png" width="500" />
 </p>
@@ -32,6 +32,8 @@ Utilizing 2 GPS modules station we are able to track and record data.
 * RYLR406 Transceiver Antenna
     * Node to node communication
 
+Here is a list of the parts we used [Parts List](https://ndusbpos-my.sharepoint.com/:x:/g/personal/brandon_sitarz_ndus_edu/EYj7pP6WB-dNunrzTcp5bb8Bgdo8WEn6w1ga-DmnN949Dw?e=9menLp)
+
 ### GUI
 <p align="center">
   <img src="Documents/Pictures/GUI_Base.png" width="500" />
@@ -42,8 +44,6 @@ Utilizing 2 GPS modules station we are able to track and record data.
 <p align="center">
   <img src="Documents/Pictures/GUI_Map.png" width="500" />
 </p>
-
-### Picture of device
 
 ## Working with project 
 
