@@ -19,10 +19,17 @@ Utilizing 2 GPS modules station we are able to track and record data.
 * Mobile station will then apply the drift value sent from the base station to it's location to improve accuracy
 
 ### Hardware used
+* Raspberry Pi Zero 2 W
+    * Data processing and Display
+* MAX 10S GNSS Receiver
+    * GPS Receiver
+* RYLR406 Transceiver Antenna
+    * Node to node communication
 
 ### GUI
+PICTURE OF GUI
 
-### Poster:
+### Picture of device
 
 ## Working with project 
 
