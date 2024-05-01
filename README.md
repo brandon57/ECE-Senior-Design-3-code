@@ -1,5 +1,5 @@
 
-# ECE-Senior-Design-3-code
+# ECE Senior Design 3 Project - Differential GPS
 
 <p align="center">
   <img src="Documents/Pictures/Devices.png" width="500" />
