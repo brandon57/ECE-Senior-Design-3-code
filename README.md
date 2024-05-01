@@ -1,9 +1,32 @@
 
 # ECE-Senior-Design-3-code
 
-[Parts List](https://ndusbpos-my.sharepoint.com/:x:/g/personal/brandon_sitarz_ndus_edu/EYj7pP6WB-dNunrzTcp5bb8Bgdo8WEn6w1ga-DmnN949Dw?e=9menLp)
+Here is a list of the parts we used [Parts List](https://ndusbpos-my.sharepoint.com/:x:/g/personal/brandon_sitarz_ndus_edu/EYj7pP6WB-dNunrzTcp5bb8Bgdo8WEn6w1ga-DmnN949Dw?e=9menLp)
 
-## Installation and Dependencies:
+### Description of the project
+This project features 2 seperate GPS modules to improve the accuracy of location tracking. One GPS module will have a location drift exceeding 100+ feet due to atmospheric disturbances.
+
+Picture of MATLAB GPS HERE
+
+Using a differential GPS configuration can improve speed and accuracy of position acquisition, and correct drifting as shown above.
+
+### Schematic
+PICTURE OF SCHEMATIC HERE
+
+### How it's done
+Utilizing 2 GPS modules station we are able to track and record data.
+* Base station will calculate drift from a "known" location and send that to the mobile station
+* Mobile station will then apply the drift value sent from the base station to it's location to improve accuracy
+
+### Hardware used
+
+### GUI
+
+### Poster:
+
+## Working with project 
+
+### Installation and Dependencies:
 Clone the repository and open a terminal within the directory.
 
 Our application uses [poetry](https://github.com/python-poetry/poetry) to manage python dependiences and environment. On a debian linux machine (raspberry pi), run the following to [install it](https://python-poetry.org/docs/#installing-with-pipx).
