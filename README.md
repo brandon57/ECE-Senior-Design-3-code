@@ -6,12 +6,18 @@ Here is a list of the parts we used [Parts List](https://ndusbpos-my.sharepoint.
 ### Description of the project
 This project features 2 seperate GPS modules to improve the accuracy of location tracking. One GPS module will have a location drift exceeding 100+ feet due to atmospheric disturbances.
 
-Picture of MATLAB GPS HERE
+<p align="center">
+  <img src="Documents/Pictures/GPS_Graph.png" width="500" />
+</p>
 
 Using a differential GPS configuration can improve speed and accuracy of position acquisition, and correct drifting as shown above.
 
 ### Schematic
-PICTURE OF SCHEMATIC HERE
+
+
+<p align="center">
+  <img src="Documents/Pictures/Schematic.png" width="500" />
+</p>
 
 ### How it's done
 Utilizing 2 GPS modules station we are able to track and record data.
@@ -27,7 +33,15 @@ Utilizing 2 GPS modules station we are able to track and record data.
     * Node to node communication
 
 ### GUI
-PICTURE OF GUI
+<p align="center">
+  <img src="Documents/Pictures/GUI_Base.png" width="500" />
+</p>
+<p align="center">
+  <img src="Documents/Pictures/GUI_Mobile.png" width="500" />
+</p>
+<p align="center">
+  <img src="Documents/Pictures/GUI_Map.png" width="500" />
+</p>
 
 ### Picture of device
 
